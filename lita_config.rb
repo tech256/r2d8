@@ -28,6 +28,6 @@ Lita.configure do |config|
   config.handlers.karma.cooldown = nil
   config.handlers.karma.link_karma_threshold = nil
   config.handlers.memegen.command_only = false
-  config.handlers.memegen.username = ENV.fetch("MEMEGEN_USER")
-  config.handlers.memegen.password = ENV.fetch("MEMEGEN_PASS")
+  config.handlers.memegen.username = ENV["MEMEGEN_USER"]
+  config.handlers.memegen.password = ENV["MEMEGEN_PASS"]
 end
