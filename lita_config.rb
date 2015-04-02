@@ -30,4 +30,7 @@ Lita.configure do |config|
   config.handlers.memegen.command_only = false
   config.handlers.memegen.username = ENV["MEMEGEN_USER"]
   config.handlers.memegen.password = ENV["MEMEGEN_PASS"]
+  config.handlers.static_meme.mapping = {
+    /^where('| i)s #{config.robot.name}[?]?$/i => "There is no #{config.robot.name}. There is only Zuul.",
+  }
 end

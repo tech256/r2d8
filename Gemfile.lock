@@ -34,6 +34,8 @@ GEM
       faye-websocket (>= 0.8.0)
       lita (>= 4.0.4)
       multi_json
+    lita-static-meme (1.0.0)
+      lita
     multi_json (1.11.0)
     multipart-post (2.0.0)
     puma (2.11.1)
@@ -58,3 +60,4 @@ DEPENDENCIES
   lita-karma
   lita-memegen
   lita-slack
+  lita-static-meme
