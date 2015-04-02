@@ -26,6 +26,8 @@ GEM
       thor (>= 0.18.1)
     lita-karma (3.0.1)
       lita (>= 4.0)
+    lita-memegen (1.1.1)
+      lita (>= 2.0)
     lita-slack (1.1.0)
       eventmachine
       faraday
@@ -54,4 +56,5 @@ PLATFORMS
 DEPENDENCIES
   lita
   lita-karma
+  lita-memegen
   lita-slack

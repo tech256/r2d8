@@ -34,4 +34,7 @@ Lita.configure do |config|
 
   config.redis[:url] = ENV.fetch("REDISTOGO_URL")
   config.http.port = ENV.fetch("PORT")
+
+  config.handlers.memegen.username = ENV.fetch("MEMEGEN_USER")
+  config.handlers.memegen.password = ENV.fetch("MEMEGEN_PASS")
 end
