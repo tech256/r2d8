@@ -38,6 +38,8 @@ GEM
       multi_json
     lita-static-meme (1.0.0)
       lita
+    lita-tinysong (2.0.0)
+      lita (> 4.0)
     multi_json (1.11.0)
     multipart-post (2.0.0)
     puma (2.11.1)
@@ -64,3 +66,4 @@ DEPENDENCIES
   lita-replace
   lita-slack
   lita-static-meme
+  lita-tinysong
