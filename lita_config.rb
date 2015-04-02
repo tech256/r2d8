@@ -32,5 +32,6 @@ Lita.configure do |config|
   config.handlers.memegen.password = ENV["MEMEGEN_PASS"]
   config.handlers.static_meme.mapping = {
     /^where('| i)s #{config.robot.name}[?]?$/i => "There is no #{config.robot.name}. There is only Zuul.",
+    /^thank(s| ?you)\s#{config.robot.name}/ => "At your service.",
   }
 end
