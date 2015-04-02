@@ -25,6 +25,8 @@ Lita.configure do |config|
 
   config.adapters.slack.token = ENV.fetch("SLACK_TOKEN") { "NOPE" }
 
+  config.handlers.karma.cooldown = nil
+  config.handlers.karma.link_karma_threshold = nil
   config.handlers.memegen.command_only = false
   config.handlers.memegen.username = ENV.fetch("MEMEGEN_USER")
   config.handlers.memegen.password = ENV.fetch("MEMEGEN_PASS")
