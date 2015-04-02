@@ -15,25 +15,15 @@ Lita.configure do |config|
   # What is considered a user ID will change depending on which adapter you use.
   # config.robot.admins = ["1", "2"]
 
-  # The adapter you want to connect with. Make sure you've added the
-  # appropriate gem to the Gemfile.
-  config.robot.adapter = :slack
-  config.adapters.slack.token = ENV.fetch("SLACK_TOKEN")
+  if ENV["LITA_ENV"] == "production"
+    config.redis[:url] = ENV.fetch("REDISTOGO_URL")
+    config.http.port = ENV.fetch("PORT")
+    config.robot.adapter = :slack
+  else
+    config.robot.adapter = :shell
+  end
 
-  ## Example: Set options for the chosen adapter.
-  # config.adapter.username = "myname"
-  # config.adapter.password = "secret"
-
-  ## Example: Set options for the Redis connection.
-  # config.redis.host = "127.0.0.1"
-  # config.redis.port = 1234
-
-  ## Example: Set configuration for any loaded handlers. See the handler's
-  ## documentation for options.
-  # config.handlers.some_handler.some_config_key = "value"
-
-  config.redis[:url] = ENV.fetch("REDISTOGO_URL")
-  config.http.port = ENV.fetch("PORT")
+  config.adapters.slack.token = ENV.fetch("SLACK_TOKEN") { "NOPE" }
 
   config.handlers.memegen.command_only = false
   config.handlers.memegen.username = ENV.fetch("MEMEGEN_USER")
