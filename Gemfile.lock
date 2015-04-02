@@ -28,6 +28,8 @@ GEM
       lita (>= 4.0)
     lita-memegen (1.1.1)
       lita (>= 2.0)
+    lita-replace (0.0.2)
+      lita
     lita-slack (1.1.0)
       eventmachine
       faraday
@@ -59,5 +61,6 @@ DEPENDENCIES
   lita
   lita-karma
   lita-memegen
+  lita-replace
   lita-slack
   lita-static-meme
