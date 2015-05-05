@@ -27,6 +27,7 @@ Lita.configure do |config|
 
   config.handlers.karma.cooldown = nil
   config.handlers.karma.link_karma_threshold = nil
+  config.handlers.karma.term_pattern = /[<:][^>:]+[>:]|[\[\]\p{Word}\._|\{\}]{2,}/
   config.handlers.memegen.command_only = false
   config.handlers.memegen.username = ENV["MEMEGEN_USER"]
   config.handlers.memegen.password = ENV["MEMEGEN_PASS"]
