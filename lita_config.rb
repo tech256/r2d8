@@ -29,6 +29,7 @@ Lita.configure do |config|
     "@#{user_id} (#{user_name})" #=> @UUID (Liz Lemon)
   }
 
+  config.handlers.slack_karma_sync.user_term_normalizer = normalized_karma_user_term
   config.handlers.karma.cooldown = nil
   config.handlers.karma.link_karma_threshold = nil
   config.handlers.karma.term_pattern = /[<:][^>:]+[>:]|[\[\]\p{Word}\._|\{\}]{2,}/
