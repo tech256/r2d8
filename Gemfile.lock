@@ -36,6 +36,10 @@ GEM
       faye-websocket (>= 0.8.0)
       lita (>= 4.0.4)
       multi_json
+    lita-slack-karma-sync (0.2.1)
+      lita (>= 4.2)
+      lita-karma (>= 3.0.2)
+      lita-slack (>= 1.2.0)
     lita-static-meme (1.0.0)
       lita
     lita-tinysong (2.0.0)
@@ -65,5 +69,6 @@ DEPENDENCIES
   lita-memegen
   lita-replace
   lita-slack
+  lita-slack-karma-sync
   lita-static-meme
   lita-tinysong

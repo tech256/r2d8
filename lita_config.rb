@@ -25,9 +25,24 @@ Lita.configure do |config|
 
   config.adapters.slack.token = ENV.fetch("SLACK_TOKEN") { "NOPE" }
 
+  normalized_karma_user_term = ->(user_id, user_name) {
+    "@#{user_id} (#{user_name})" #=> @UUID (Liz Lemon)
+  }
+
   config.handlers.karma.cooldown = nil
   config.handlers.karma.link_karma_threshold = nil
   config.handlers.karma.term_pattern = /[<:][^>:]+[>:]|[\[\]\p{Word}\._|\{\}]{2,}/
+  config.handlers.karma.term_normalizer = lambda do |full_term|
+    term = full_term.to_s.strip.sub(/[<:]([^>:]+)[>:]/, '\1')
+    user = Lita::User.fuzzy_find(term.sub(/\A@/, ''))
+
+    if user
+      normalized_karma_user_term.call(user.id, user.name)
+    else
+      term.downcase
+    end
+  end
+
   config.handlers.memegen.command_only = false
   config.handlers.memegen.username = ENV["MEMEGEN_USER"]
   config.handlers.memegen.password = ENV["MEMEGEN_PASS"]
