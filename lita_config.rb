@@ -51,5 +51,6 @@ Lita.configure do |config|
   config.handlers.static_meme.mapping = {
     /^where('| i)s #{config.robot.name}[?]?$/i => "There is no #{config.robot.name}. There is only Zuul.",
     /^thank(s| ?you)\s#{config.robot.name}/i => "At your service.",
+    /top .* the mornin/i => "And the rest of the day to yourself.",
   }
 end
