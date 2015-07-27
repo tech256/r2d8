@@ -1,3 +1,8 @@
 test:
   override:
     - bundle exec lita <<< exit
+deployment:
+  production:
+    branch: master
+    heroku:
+      appname: tech256-bot
