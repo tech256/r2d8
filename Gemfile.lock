@@ -72,3 +72,6 @@ DEPENDENCIES
   lita-slack-karma-sync
   lita-static-meme
   lita-tinysong
+
+BUNDLED WITH
+   1.10.5
