@@ -46,9 +46,9 @@ Lita.configure do |config|
     end
   end
 
-  config.handlers.memegen.command_only = false
-  config.handlers.memegen.username = ENV["MEMEGEN_USER"]
-  config.handlers.memegen.password = ENV["MEMEGEN_PASS"]
+  config.handlers.imgflip.command_only = false
+  config.handlers.imgflip.username = ENV['IMGFLIP_USER']
+  config.handlers.imgflip.password = ENV['IMGFLIP_PASSWORD']
   config.handlers.tinysong.api_key = ENV["TINYSONG_KEY"]
   config.handlers.static_meme.mapping = {
     /^where('| i)s #{config.robot.name}[?]?$/i => "There is no #{config.robot.name}. There is only Zuul.",
