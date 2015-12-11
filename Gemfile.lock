@@ -24,6 +24,8 @@ GEM
       rb-readline (>= 0.5.1)
       redis-namespace (>= 1.3.0)
       thor (>= 0.18.1)
+    lita-ignore-me (0.1.0)
+      lita (>= 4.6)
     lita-imgflip (1.1.0)
       lita (~> 4.0)
     lita-karma (3.0.2)
@@ -66,6 +68,7 @@ PLATFORMS
 
 DEPENDENCIES
   lita
+  lita-ignore-me
   lita-imgflip
   lita-karma
   lita-poll
