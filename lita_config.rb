@@ -55,7 +55,7 @@ Lita.configure do |config|
     /^thank(s| ?you)\s#{config.robot.name}/i => "At your service.",
     /top .* the mornin/i => "And the rest of the day to yourself.",
     /^!welcome/i => <<MSG,
-Welcome to :256:! Join the conversation. There are many tech-specific channels. (e.g. #unix, #testing). A lot of silliness goes down in #random.
+Welcome to :256:! Join the conversation. There are many tech-specific channels. (e.g. #code, #testing, #jobs). A lot of silliness goes down in #random.
 
 If you have any questions, speak up. If you ever have any problem, please raise it or reach out to an admin. Check out our Code of Conduct (https://github.com/tech256/CoC).
 MSG
