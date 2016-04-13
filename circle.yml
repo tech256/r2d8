@@ -5,4 +5,4 @@ deployment:
   production:
     branch: master
     heroku:
-      appname: tech256-bot
+      appname: r2d8
