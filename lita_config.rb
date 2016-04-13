@@ -18,7 +18,7 @@ Lita.configure do |config|
   ]
 
   if ENV["LITA_ENV"] == "production"
-    config.redis[:url] = ENV.fetch("REDISTOGO_URL")
+    config.redis[:url] = ENV.fetch("REDIS_URL")
     config.http.port = ENV.fetch("PORT")
     config.robot.adapter = :slack
   else
