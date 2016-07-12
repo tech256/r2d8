@@ -54,6 +54,7 @@ Lita.configure do |config|
     /^where('| i)s #{config.robot.name}[?]?$/i => "There is no #{config.robot.name}. There is only Zuul.",
     /^thank(s| ?you)\s#{config.robot.name}/i => "At your service.",
     /top .* the mornin/i => "And the rest of the day to yourself.",
+    /@channel/ => "Please prefer `@here` for group notifications. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users.",
     /^!welcome/i => <<MSG,
 Welcome to :256:! Join the conversation. There are many tech-specific channels. (e.g. #code, #testing, #jobs). A lot of silliness goes down in #random.
 
