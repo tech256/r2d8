@@ -58,6 +58,8 @@ Lita.configure do |config|
     /^!welcome/i => <<MSG,
 Welcome to :256:! Join the conversation. There are many tech-specific channels. (e.g. #code, #testing, #jobs). A lot of silliness goes down in #random.
 
+If you haven't done so already, please upload an avatar and fill out your proflie. We're a friendly group–we don't bite, promise!–but we are a community that likes to know our neighbors!
+
 If you have any questions, speak up. If you ever have any problem, please raise it or reach out to an admin. Check out our Code of Conduct (https://github.com/tech256/CoC).
 MSG
   }
