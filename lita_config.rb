@@ -58,7 +58,7 @@ Lita.configure do |config|
     /^!welcome/i => <<MSG,
 Welcome to :256:! Join the conversation. There are many tech-specific channels. (e.g. #code, #testing, #jobs). A lot of silliness goes down in #random.
 
-If you haven't done so already, please upload an avatar and fill out your proflie. We're a friendly group–we don't bite, promise!–but we are a community that likes to know our neighbors!
+If you haven't done so already, please upload an avatar and fill out your profile. We're a friendly group–we don't bite, promise!–but we are a community that likes to know our neighbors!
 
 You might also want to take a moment to check Preferences > Notifications to keep interruptions under control. Also note that each channel may be muted to avoid excessive noise.
 
