@@ -53,7 +53,7 @@ Lita.configure do |config|
   config.handlers.static_meme.mapping = {
     /^where('| i)s #{config.robot.name}[?]?$/i => "There is no #{config.robot.name}. There is only Zuul.",
     /^thank(s| ?you)\s#{config.robot.name}/i => "At your service.",
-    /\btop o.? the mornin.?/i => "And the rest of the day to yourself.",
+    /\btop o.? the mornin/i => "And the rest of the day to yourself.",
     /@channel/ => "Please use `@here` for group notifications instead. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users. (Repeated `@channel` usage is considered a CoC violation.)",
     /^!welcome/i => <<MSG,
 Welcome to :256:!
