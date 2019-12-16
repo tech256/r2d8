@@ -1,0 +1,21 @@
+{
+  "name": "r2d8",
+  "version": "1.0.0",
+  "description": "A bot for the people of tech256.",
+  "main": "index.js",
+  "repository": "https://github.com/tech256/r2d8.git",
+  "author": "PallasStreams",
+  "license": "Apache-2.0",
+  "private": true,
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "slackbots": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  }
+}

@@ -7,4 +7,4 @@ on [R2-D2][r2d2] where in we replaced the last 2 with an 8 because 256 is
 
 [tech256]: http://tech256.com
 [r2d2]: http://en.wikipedia.org/wiki/R2-D2
-[lita]: https://www.lita.io
+[slackbots]: https://github.com/mishk0/slack-bot-api
