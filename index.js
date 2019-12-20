@@ -56,7 +56,7 @@ function handleMessage( event ) {
         If you have any questions, reach out to our moderators (listed on tech256.com). We’re happy to help. Also, please review our Code of Conduct (https://github.com/tech256/CoC). Our goal is to support an open, inclusive North Alabama tech community — please help us make Tech256 a great place for everyone.`;
     }
     else {
-        response = "Command not available.";
+        // user typed something that didn't match the inputs we expected so probably has nothing to with the bot
     }
 
     // ignore messages by bots
