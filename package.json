@@ -9,7 +9,8 @@
   "private": true,
   "dependencies": {
     "dotenv": "^8.2.0",
-    "slackbots": "^1.2.0"
+    "slackbots": "^1.2.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
