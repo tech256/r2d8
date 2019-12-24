@@ -114,5 +114,5 @@ http.createServer( function( request, response ) {
         response.end();
     }
 } ).listen( process.env.PORT, function() {
-   logger.log( 'debug', `Server started running on port ${PROCESS.ENV.PORT}.` ); 
+   logger.log( 'debug', `Server started running on port ${process.env.PORT}.` ); 
 } );
