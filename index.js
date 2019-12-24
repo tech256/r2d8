@@ -113,6 +113,6 @@ http.createServer( function( request, response ) {
         response.write( `<h1>${process.env.ROBOT_NAME}</h1>` );
         response.end();
     }
-} ).listen( 80, function() {
-   logger.log( 'debug', 'Server started running on port 80.' ); 
+} ).listen( process.env.PORT, function() {
+   logger.log( 'debug', `Server started running on port ${PROCESS.ENV.PORT}.` ); 
 } );
