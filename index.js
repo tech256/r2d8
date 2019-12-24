@@ -1,4 +1,5 @@
 require('dotenv').config();
+const http = require( 'http' );
 const SlackBot = require( 'slackbots' );
 const winston = require( 'winston' );
 
@@ -24,6 +25,12 @@ const bot = new SlackBot( {
 // start handler
 bot.on( 'start', () => {
     logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has started.` );
+});
+
+// start handler
+bot.on( 'close', () => {
+    logger.log( 'info', 'Websocket connection to Slack has been closed' );
+    logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has stopped.` );
 });
 
 // error handler
@@ -92,3 +99,20 @@ If you have any questions, reach out to our moderators (listed on tech256.com). 
     // let the bot speak man!
     bot.postMessage( event.channel, response );
 }
+
+//create a server object:
+http.createServer( function( request, response ) {
+    response.writeHead( 200, { 'Content-Type': 'text/html' } ); // http header
+
+    var url = request.url;
+    if( url ==='/info' ) {
+        response.write( `${process.env.ROBOT_NAME} is currently operational.` );
+        response.end();
+    }
+    else {
+        response.write( `<h1>${process.env.ROBOT_NAME}</h1>` );
+        response.end();
+    }
+} ).listen( 80, function() {
+   logger.log( 'debug', 'Server started running on port 80.' ); 
+} );
