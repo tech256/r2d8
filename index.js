@@ -3,6 +3,9 @@ const http = require( 'http' );
 const SlackBot = require( 'slackbots' );
 const winston = require( 'winston' );
 
+// declare the bot variable so we can use it later
+let bot;
+
 // setup the logger to log to the console
 let logger = winston.createLogger( {
     level: process.env.LOG_LEVEL,
@@ -16,40 +19,58 @@ let logger = winston.createLogger( {
 
 logger.add( new winston.transports.Console() );
 
-// setup the bot
-const bot = new SlackBot( {
-    token: process.env.SLACK_TOKEN,
-    name: process.env.ROBOT_NAME
-} );
+const startBot = () => {
+    // setup the bot
+    bot = new SlackBot( {
+        token: process.env.SLACK_TOKEN,
+        name: process.env.ROBOT_NAME
+    } );
 
-// start handler
-bot.on( 'start', () => {
-    logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has started.` );
-});
+    // start handler
+    bot.on( 'start', ( error ) => {
+        if ( error ) {
+            // login function is what actually starts the RTM connection. set retry to 10 secs if connection fails
+            setTimeout( bot.login(), 10000 );
+        }
+        logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has started.` );
+    });
 
-// start handler
-bot.on( 'close', () => {
-    logger.log( 'info', 'Websocket connection to Slack has been closed' );
-    logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has stopped.` );
-});
+    // start handler
+    bot.on( 'close', ( error ) => {
+        try {
+            // this will attempt to reconnect before failing the bot. Will also log the error that occurred.
+            if ( error ) {
+                // execute start function (includes creating bot again and refreshing RTM session
+                startBot();
+            }
+        } catch ( error ) {
+            // logs bot reconnect error
+            logger.log( 'info', 'Websocket connection to Slack has been closed' );
+            logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has stopped.` );
+            logger.log( 'error', `Bot crashed.. \n ${error}` );
+        }
+    });
 
-// error handler
-bot.on( 'error', ( error ) => logger.log( 'error', error ) );
+    // error handler
+    bot.on( 'error', ( error ) => logger.log( 'error', error ) );
 
-// message handler
-bot.on( 'message', ( event ) => {
-    if( event.type !== 'message' ) {
-        return;
-    }
+    // message handler
+    bot.on( 'message', ( event ) => {
+        if( event.type !== 'message' ) {
+            return;
+        }
 
-    // Ignore messages if they are deleted or if they are from bots
-    if ( event.type === 'message' && ( event.subtype === 'message_deleted' || event.subtype === 'bot_message' ) ) {
-        return;
-    }
+        // Ignore messages if they are deleted or if they are from bots
+        if ( event.type === 'message' && ( event.subtype === 'message_deleted' || event.subtype === 'bot_message' ) ) {
+            return;
+        }
 
-    // Parse the message to see if the user used a commmand we support
-    handleMessage( event );
-});
+        // Parse the message to see if the user used a commmand we support
+        handleMessage( event );
+    });
+}
+
+startBot();
 
 function handleMessage( event ) {
     var message = event.text,
@@ -76,7 +97,7 @@ function handleMessage( event ) {
         response = 'Please use `@here` for group notifications instead. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users. (Repeated `@channel` usage is considered a CoC violation.)';
     }
     // user example: !welcome
-    else if ( message.match( /^!welcome/i ) ) {
+    else if ( message.match( /^!welcome/i ) && process.env.ENABLE_WELCOME_MESSAGE === 'true' ) {
         response = `Welcome to :256:!
 
 If you haven't done so already, please upload an avatar and fill out your profile. We're a friendly group–we don't bite, promise!–but we are a community that likes to know our neighbors!
@@ -100,16 +121,21 @@ If you have any questions, reach out to our moderators (listed on tech256.com). 
     bot.postMessage( event.channel, response );
 }
 
-//create a server object:
+// Create a server object:
 http.createServer( function( request, response ) {
-    response.writeHead( 200, { 'Content-Type': 'text/html' } ); // http header
-
     var url = request.url;
     if( url ==='/info' ) {
-        response.write( `${process.env.ROBOT_NAME} is currently operational.` );
+        var json = {
+            'name': `${process.env.ROBOT_NAME}`,
+            'status': 'Operational'
+        };
+        
+        response.setHeader( 'Content-Type', 'application/json' ); // http header
+        response.write( JSON.stringify( json ) );
         response.end();
     }
     else {
+        response.setHeader( 'Content-Type', 'text/html' ); // http header
         response.write( `<h1>${process.env.ROBOT_NAME}</h1>` );
         response.end();
     }
