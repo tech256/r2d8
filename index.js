@@ -118,7 +118,7 @@ If you have any questions, reach out to our moderators (listed on tech256.com). 
     }
 
     // let the bot speak man!
-    bot.postMessage( event.channel, response );
+    bot.postMessage( event.channel, response, { as_user: true } );
 }
 
 // Create a server object:
