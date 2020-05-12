@@ -46,8 +46,8 @@ const startBot = () => {
             return;
         }
 
-        // Ignore messages if they are deleted or if they are from bots
-        if ( event.type === 'message' && ( event.subtype === 'message_deleted' || messageIsFromABot( event ) ) ) {
+        // Ignore messages if they are deleted, are changed messages or if they are from bots
+        if ( event.type === 'message' && ( event.subtype === 'message_deleted' || event.subtype === 'message_changed' || messageIsFromABot( event ) ) ) {
             return;
         }
 
@@ -95,7 +95,7 @@ If you have any questions, reach out to our moderators (listed on tech256.com). 
     else {
         // user typed something that didn't match the inputs we expected so just ignore it
     }
-    
+
     // Only log when the bot actually has something to say
     if ( response !== '' ) {
         logger.debug( `${process.env.ROBOT_NAME} says: ${response}` );
@@ -106,7 +106,7 @@ If you have any questions, reach out to our moderators (listed on tech256.com). 
 }
 
 const messageIsFromABot = function( event ) {
-    if  ( event.type === 'message' && ( event.subtype === 'bot_message' || 
+    if  ( event.type === 'message' && ( event.subtype === 'bot_message' ||
         ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name == 'bot' ) ) ) {
         return true;
     }
