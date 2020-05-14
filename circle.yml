@@ -1,6 +1,3 @@
-test:
-  override:
-    - bundle exec lita <<< exit
 deployment:
   production:
     branch: master
