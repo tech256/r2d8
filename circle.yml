@@ -1,5 +1,16 @@
-deployment:
-  production:
-    branch: master
-    heroku:
-      appname: r2d8
+version: 2.1
+jobs:
+  build:
+    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+  orbs:
+    heroku: circleci/heroku@x.y
+  version: 2.1
+  workflows:
+    heroku_deploy:
+      jobs:
+        - heroku/deploy-via-git
+      app-name: r2d8
