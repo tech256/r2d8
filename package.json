@@ -13,10 +13,13 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "jest": "^26.0.1",
     "nodemon": "^2.0.2"
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "jest": "jest",
+    "jest-watch": "jest --watch"
   }
 }
