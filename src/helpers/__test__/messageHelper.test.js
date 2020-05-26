@@ -104,7 +104,7 @@ describe('messageHelper', () => {
         })
         
         describe(`where's`, () => {
-            test(`lowercase'`, () => {
+            test(`lowercase`, () => {
                 event.text = `where's ${botName.toLowerCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul);
             })
