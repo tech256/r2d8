@@ -6,18 +6,18 @@ const messageIsFromABot = function ( event ) {
         return true;
     }
     return false;
-}
+};
 
 const getMessageResponse = function ( event ) {
     // console.debug(JSON.stringify(event, null, 2))
     // console.debug(process.env.ROBOT_NAME);
     const message = event.text;
 
-    const whereIs = new RegExp( `where is ${process.env.ROBOT_NAME}`, 'i' )
-    const wheres = new RegExp( `where's ${process.env.ROBOT_NAME}`, 'i' )
-    const thanks = new RegExp( `thanks ${process.env.ROBOT_NAME}`, 'i' )
-    const thankYou = new RegExp( `thank you ${process.env.ROBOT_NAME}`, 'i' )
-    const welcome = new RegExp( `^!welcome`, 'i' )
+    const whereIs = new RegExp( `where is ${process.env.ROBOT_NAME}`, 'i' );
+    const wheres = new RegExp( `where's ${process.env.ROBOT_NAME}`, 'i' );
+    const thanks = new RegExp( `thanks ${process.env.ROBOT_NAME}`, 'i' );
+    const thankYou = new RegExp( `thank you ${process.env.ROBOT_NAME}`, 'i' );
+    const welcome = new RegExp( `^!welcome`, 'i' );
 
 
     let response = '';
@@ -56,7 +56,7 @@ const getMessageResponse = function ( event ) {
 
     // console.info(`response: ${response}`)
     return response;
-}
+};
 
 module.exports = {
     messageIsFromABot,
