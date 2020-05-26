@@ -19,7 +19,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "jest": "jest",
-    "jest-watch": "jest --watch"
+    "test": "jest",
+    "test-watch": "jest --watch"
   }
 }
