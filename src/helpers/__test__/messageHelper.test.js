@@ -113,6 +113,12 @@ describe('messageHelper', () => {
                 event.text = `where's ${botName.toUpperCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul);
             })
+            
+            test('user id', () => {
+                process.env.BOT_ID = "12345";
+                event.text = `Where's <@${process.env.BOT_ID}>`;
+                expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul)
+            })
         })
         
         describe(`thanks`, () => {
