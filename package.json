@@ -21,7 +21,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "jest": "jest clearCache && jest",
-    "jest-watch": "jest --clearCache && jest --watch"
+    "test": "jest --clearCache && jest",
+    "test-watch": "jest --clearCache && jest --watch"
   }
 }
