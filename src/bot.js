@@ -1,7 +1,7 @@
 require( 'dotenv' ).config();
 const SlackBot = require( 'slackbots' );
 const logger = require( './logger' );
-const messageHelper = require( './helpers/messageHelper' )
+const messageHelper = require( './helpers/messageHelper' );
 
 // declare the bot variable so we can use it later
 let bot;
@@ -65,7 +65,7 @@ const startBot = () => {
             } );
         }
     } );
-}
+};
 
 module.exports = {
     startBot
