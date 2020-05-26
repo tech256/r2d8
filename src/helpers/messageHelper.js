@@ -12,6 +12,11 @@ const getMessageResponse = function (event) {
   // console.debug(JSON.stringify(event, null, 2))
   // console.debug(process.env.ROBOT_NAME);
   const message = event.text;
+  let response = '';
+
+  if(message === null || message === undefined) {
+    return response;
+  }
 
   const whereIs = new RegExp(`where is ${process.env.ROBOT_NAME}`, 'i')
   const wheres = new RegExp(`where's ${process.env.ROBOT_NAME}`, 'i')
@@ -19,8 +24,6 @@ const getMessageResponse = function (event) {
   const thankYou = new RegExp(`thank you ${process.env.ROBOT_NAME}`, 'i')
   const welcome = new RegExp(`^!welcome`, 'i')
 
-
-  let response = '';
 
   // user example: where is R2D8?
   // user example: where's R2D8?
