@@ -1,5 +1,5 @@
-const messageHelper = require("../messageHelper");
-const constants = require("../constants")
+const messageHelper = require('../messageHelper');
+const constants = require('../constants')
 
 describe('messageHelper', () => {
     describe('messageIsFromABot', () => {
@@ -97,37 +97,37 @@ describe('messageHelper', () => {
             })
         })
         
-        describe(`where's`, () => {
-            test(`lowercase'`, () => {
+        describe('where\'s', () => {
+            test('lowercase\'', () => {
                 event.text = `where's ${botName.toLowerCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul);
             })
             
-            test(`uppercase`, () => {
+            test('uppercase', () => {
                 event.text = `where's ${botName.toUpperCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul);
             })
         })
         
-        describe(`thanks`, () => {
-            test(`lowercase`, () => {
+        describe('thanks', () => {
+            test('lowercase', () => {
                 event.text = `thanks ${botName.toLowerCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(atYourService);
             })
             
-            test(`uppercase`, () => {
+            test('uppercase', () => {
                 event.text = `thanks ${botName.toUpperCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(atYourService);
             })
         })
         
         describe('thank you', () => {
-            test(`lowercase`, () => {
+            test('lowercase', () => {
                 event.text = `thank you ${botName.toLowerCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(atYourService);
             })
             
-            test(`uppercase`, () => {
+            test('uppercase', () => {
                 event.text = `thank you ${botName.toUpperCase()}?`;
                 expect(messageHelper.getMessageResponse(event)).toEqual(atYourService);
             })
@@ -137,41 +137,41 @@ describe('messageHelper', () => {
         describe('top', () => {
             const restOfDay = 'And the rest of the day to yas.'
             
-            test(`o the morn`, () => {
-                event.text = `top o the morn`;
+            test('o the morn', () => {
+                event.text = 'top o the morn';
                 expect(messageHelper.getMessageResponse(event)).toEqual(restOfDay);
             })
             
-            test(`of the morn`, () => {
-                event.text = `top of the morn`;
+            test('of the morn', () => {
+                event.text = 'top of the morn';
                 expect(messageHelper.getMessageResponse(event)).toEqual(restOfDay);
             })
             
-            test(`o the mornin`, () => {
-                event.text = `top o the mornin`;
+            test('o the mornin', () => {
+                event.text = 'top o the mornin';
                 expect(messageHelper.getMessageResponse(event)).toEqual(restOfDay);
             })
             
-            test(`of the mornin`, () => {
-                event.text = `top of the mornin`;
+            test('of the mornin', () => {
+                event.text = 'top of the mornin';
                 expect(messageHelper.getMessageResponse(event)).toEqual(restOfDay);
             })
             
-            test(`o the morning`, () => {
-                event.text = `top o the mornin`;
+            test('o the morning', () => {
+                event.text = 'top o the mornin';
                 expect(messageHelper.getMessageResponse(event)).toEqual(restOfDay);
             })
             
-            test(`of the morning`, () => {
-                event.text = `top of the mornin`;
+            test('of the morning', () => {
+                event.text = 'top of the mornin';
                 expect(messageHelper.getMessageResponse(event)).toEqual(restOfDay);
             })
         })
         
         describe('@channel', () => {
-            test(`HERE INSTEAD`, () => {
+            test('HERE INSTEAD', () => {
                 const event = {
-                    text: "@channel fa la la"
+                    text: '@channel fa la la'
                 }
                 expect(messageHelper.getMessageResponse(event)).toEqual(constants.USE_HERE_INSTEAD);
             })
@@ -192,13 +192,13 @@ describe('messageHelper', () => {
                 process.env = OLD_ENV;
             });
 
-            test(`ENABLE_WELCOME_MESSAGE != 'true' || true`, () => {
+            test('ENABLE_WELCOME_MESSAGE != \'true\' || true', () => {
                 process.env.ENABLE_WELCOME_MESSAGE = undefined;
                 event.text = '!welcome @foobar';
                 expect(messageHelper.getMessageResponse(event)).toEqual('');
             })
 
-            describe(`ENABLE_WELCOME_MESSAGE == 'true'`, () => {
+            describe('ENABLE_WELCOME_MESSAGE == \'true\'', () => {
                 beforeEach(() => {
                     process.env.ENABLE_WELCOME_MESSAGE = 'true';
                 })
@@ -214,7 +214,7 @@ describe('messageHelper', () => {
                 })
             })
 
-            describe(`ENABLE_WELCOME_MESSAGE == true`, () => {
+            describe('ENABLE_WELCOME_MESSAGE == true', () => {
                 beforeEach(() => {
                     process.env.ENABLE_WELCOME_MESSAGE = true;
                 })
