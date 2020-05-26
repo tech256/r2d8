@@ -1,4 +1,4 @@
-const USE_HERE_INSTEAD = 'Please use `@here` for group notifications instead. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users. (Repeated `@channel` usage is considered a CoC violation.)'
+const USE_HERE_INSTEAD = 'Please use `@here` for group notifications instead. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users. (Repeated `@channel` usage is considered a CoC violation.)';
 
 const COC = `Welcome to :256:!
 
