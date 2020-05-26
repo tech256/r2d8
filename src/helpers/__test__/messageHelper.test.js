@@ -95,6 +95,12 @@ describe('messageHelper', () => {
                 event.text = 'where is ' + botName.toUpperCase() + '?';
                 expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul);
             })
+
+            test('user id', () => {
+                process.env.BOT_ID = "12345";
+                event.text = `Where is <@${process.env.BOT_ID}>`;
+                expect(messageHelper.getMessageResponse(event)).toEqual(onlyZuul)
+            })
         })
         
         describe(`where's`, () => {

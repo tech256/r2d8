@@ -19,6 +19,8 @@ const getMessageResponse = function (event) {
   }
 
   const whereIs = new RegExp(`where is ${process.env.ROBOT_NAME}`, 'i')
+  const whereIsUserId = new RegExp(`where is <@${process.env.BOT_ID}>`, 'i')
+
   const wheres = new RegExp(`where's ${process.env.ROBOT_NAME}`, 'i')
   const thanks = new RegExp(`thanks ${process.env.ROBOT_NAME}`, 'i')
   const thankYou = new RegExp(`thank you ${process.env.ROBOT_NAME}`, 'i')
@@ -27,7 +29,7 @@ const getMessageResponse = function (event) {
 
   // user example: where is R2D8?
   // user example: where's R2D8?
-  if (message.match(whereIs) != null || message.match(wheres) != null) {
+  if (message.match(whereIs) != null || message.match(wheres) != null || message.match(whereIsUserId)) {
     response = `There is no ${process.env.ROBOT_NAME}. There is only Zuul.`;
   }
 
