@@ -29,6 +29,7 @@ const getMessageResponse = function (event) {
 
   const thankYou = new RegExp(`thank you ${process.env.ROBOT_NAME}`, 'i')
   const thankYouUserId = new RegExp(`thank you <@${process.env.BOT_ID}>`, 'i')
+  
   const welcome = new RegExp(`^!welcome`, 'i')
 
 
