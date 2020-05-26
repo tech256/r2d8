@@ -1,6 +1,6 @@
 const constants = require( './constants.js' );
 
-const messageIsFromABot = function ( event ) {
+const messageIsFromABot = function( event ) {
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
       ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name == 'bot' ) ) ) {
         return true;
@@ -8,7 +8,7 @@ const messageIsFromABot = function ( event ) {
     return false;
 };
 
-const getMessageResponse = function ( event ) {
+const getMessageResponse = function( event ) {
     // console.debug(JSON.stringify(event, null, 2))
     // console.debug(process.env.ROBOT_NAME);
     const message = event.text;
@@ -17,7 +17,7 @@ const getMessageResponse = function ( event ) {
     const wheres = new RegExp( `where's ${process.env.ROBOT_NAME}`, 'i' );
     const thanks = new RegExp( `thanks ${process.env.ROBOT_NAME}`, 'i' );
     const thankYou = new RegExp( `thank you ${process.env.ROBOT_NAME}`, 'i' );
-    const welcome = new RegExp( `^!welcome`, 'i' );
+    const welcome = new RegExp( '^!welcome', 'i' );
 
 
     let response = '';
@@ -31,7 +31,7 @@ const getMessageResponse = function ( event ) {
     // user example: thank you R2D8
     // user example: thanks R2D8
     else if ( message.match( thanks ) != null || message.match( thankYou ) != null ) {
-        response = `At your service.`;
+        response = 'At your service.';
     }
 
     // user example: top o the morn
@@ -41,7 +41,7 @@ const getMessageResponse = function ( event ) {
     // user example: top o the morning
     // user example: top of the morning
     else if ( message.match( /\btop o.? the (morn|mornin)/i ) != null ) {
-        response = `And the rest of the day to yas.`;
+        response = 'And the rest of the day to yas.';
     }
     // user example: @channel
     else if ( message.match( /@channel/ ) ) {
