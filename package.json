@@ -19,7 +19,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "jest",
-    "test-watch": "jest --watch"
+    "test": "jest --clearCache",
+    "test-watch": "jest --clearCache && jest --watch"
   }
 }
