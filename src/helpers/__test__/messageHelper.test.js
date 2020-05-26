@@ -150,6 +150,12 @@ describe('messageHelper', () => {
                 expect(messageHelper.getMessageResponse(event)).toEqual(atYourService);
             })
             
+            test('user id', () => {
+                process.env.BOT_ID = "12345";
+                event.text = `thank you <@${process.env.BOT_ID}>`;
+                expect(messageHelper.getMessageResponse(event)).toEqual(atYourService)
+            })
+            
         })
         
         describe('top', () => {

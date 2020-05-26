@@ -28,6 +28,7 @@ const getMessageResponse = function (event) {
   const thanksUserId = new RegExp(`thanks <@${process.env.BOT_ID}>`, 'i')
 
   const thankYou = new RegExp(`thank you ${process.env.ROBOT_NAME}`, 'i')
+  const thankYouUserId = new RegExp(`thank you <@${process.env.BOT_ID}>`, 'i')
   const welcome = new RegExp(`^!welcome`, 'i')
 
 
@@ -41,7 +42,7 @@ const getMessageResponse = function (event) {
   // user example: thank you R2D8
   // user example: thanks R2D8
   else if (message.match(thanks) != null || message.match(thankYou) != null
-      || message.match(thanksUserId) != null) {
+      || message.match(thanksUserId) != null || message.match(thankYouUserId)) {
     response = `At your service.`;
   }
 
