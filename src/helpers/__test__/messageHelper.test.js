@@ -205,12 +205,12 @@ describe( 'messageHelper', () => {
 
                 test( 'lowercase', () => {
                     event.text = '!welcome @foobar'.toLowerCase();
-                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.COC );
+                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.WELCOME_MESSAGE );
                 } );
 
                 test( 'uppercase', () => {
                     event.text = '!welcome @foobar'.toUpperCase();
-                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.COC );
+                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.WELCOME_MESSAGE );
                 } );
             } );
 
@@ -221,12 +221,12 @@ describe( 'messageHelper', () => {
 
                 test( 'lowercase', () => {
                     event.text = '!welcome @foobar'.toLowerCase();
-                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.COC );
+                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.WELCOME_MESSAGE );
                 } );
 
                 test( 'uppercase', () => {
                     event.text = '!welcome @foobar'.toUpperCase();
-                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.COC );
+                    expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.WELCOME_MESSAGE );
                 } );
             } );
         } );

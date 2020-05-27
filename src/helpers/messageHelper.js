@@ -51,7 +51,7 @@ const getMessageResponse = function( event ) {
     // user example: !welcome
     else if ( ( message.match( welcome ) != null ) && 
       ( process.env.ENABLE_WELCOME_MESSAGE === 'true' || process.env.ENABLE_WELCOME_MESSAGE === true ) ) {
-        response = constants.COC;
+        response = constants.WELCOME_MESSAGE;
     }
 
     // console.info(`response: ${response}`)
