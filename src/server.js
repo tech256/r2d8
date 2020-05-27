@@ -1,4 +1,4 @@
-require('dotenv').config();
+require( 'dotenv' ).config();
 const http = require( 'http' );
 
 // Create a server object:
@@ -19,6 +19,6 @@ const server = http.createServer( function( request, response ) {
         response.write( `<h1>${process.env.ROBOT_NAME}</h1>` );
         response.end();
     }
-} )
+} );
 
 module.exports = server;
