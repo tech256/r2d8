@@ -1,4 +1,4 @@
-require('dotenv').config();
+require( 'dotenv' ).config();
 const logger = require( './src/logger' );
 const bot = require( './src/bot' );
 const server = require( './src/server' );
