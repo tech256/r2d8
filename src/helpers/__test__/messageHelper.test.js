@@ -198,6 +198,15 @@ describe( 'messageHelper', () => {
                 };
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.USE_HERE_INSTEAD );
             } );
+
+            // On 6.2.2020, typing "@channel" in Slack gets sent to the bot as "!channel"
+            // we'll cover both cases in case Slack changes its mind.
+            test( '@converted to !', () => {
+                const event = {
+                    text: '!channel fa la la'
+                };
+                expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.USE_HERE_INSTEAD );
+            } );
         } );
 
         describe( 'Code of Conduct', () => {
