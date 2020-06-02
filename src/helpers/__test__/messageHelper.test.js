@@ -95,16 +95,28 @@ describe( 'messageHelper', () => {
                 event.text = 'where is ' + botName.toUpperCase() + '?';
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( onlyZuul );
             } );
+
+            test( 'user id', () => {
+                process.env.BOT_ID = '12345';
+                event.text = `Where is <@${process.env.BOT_ID}>`;
+                expect( messageHelper.getMessageResponse( event ) ).toEqual( onlyZuul );
+            } );
         } );
         
         describe( 'where\'s', () => {
-            test( 'lowercase\'', () => {
+            test( 'lowercase', () => {
                 event.text = `where's ${botName.toLowerCase()}?`;
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( onlyZuul );
             } );
             
             test( 'uppercase', () => {
                 event.text = `where's ${botName.toUpperCase()}?`;
+                expect( messageHelper.getMessageResponse( event ) ).toEqual( onlyZuul );
+            } );
+            
+            test( 'user id', () => {
+                process.env.BOT_ID = '12345';
+                event.text = `where's <@${process.env.BOT_ID}>`;
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( onlyZuul );
             } );
         } );
@@ -117,6 +129,12 @@ describe( 'messageHelper', () => {
             
             test( 'uppercase', () => {
                 event.text = `thanks ${botName.toUpperCase()}?`;
+                expect( messageHelper.getMessageResponse( event ) ).toEqual( atYourService );
+            } );
+            
+            test( 'user id', () => {
+                process.env.BOT_ID = '12345';
+                event.text = `thanks <@${process.env.BOT_ID}>`;
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( atYourService );
             } );
         } );
@@ -132,6 +150,11 @@ describe( 'messageHelper', () => {
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( atYourService );
             } );
             
+            test( 'user id', () => {
+                process.env.BOT_ID = '12345';
+                event.text = `thank you <@${process.env.BOT_ID}>`;
+                expect( messageHelper.getMessageResponse( event ) ).toEqual( atYourService );
+            } );
         } );
         
         describe( 'top', () => {

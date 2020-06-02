@@ -19,7 +19,12 @@ const startBot = () => {
             // login function is what actually starts the RTM connection. set retry to 10 secs if connection fails
             setTimeout( bot.login(), 10000 );
         }
+
         logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has started.` );
+
+        bot.getUserId( `${bot.name}` ).then( ( uid ) => {
+            process.env.BOT_ID = uid;
+        } );
     } );
 
     // close handler

@@ -9,28 +9,38 @@ const messageIsFromABot = function( event ) {
 };
 
 const getMessageResponse = function( event ) {
-    // console.debug(JSON.stringify(event, null, 2))
-    // console.debug(process.env.ROBOT_NAME);
     const message = event.text;
+    let response = '';
+
+    if( message === null || message === undefined ) {
+        return response;
+    }
 
     const whereIs = new RegExp( `where is ${process.env.ROBOT_NAME}`, 'i' );
+    const whereIsUserId = new RegExp( `where is <@${process.env.BOT_ID}>`, 'i' );
+  
     const wheres = new RegExp( `where's ${process.env.ROBOT_NAME}`, 'i' );
+    const wheresUserId = new RegExp( `where.s <@${process.env.BOT_ID}>`, 'i' );
+
     const thanks = new RegExp( `thanks ${process.env.ROBOT_NAME}`, 'i' );
+    const thanksUserId = new RegExp( `thanks <@${process.env.BOT_ID}>`, 'i' );
+
     const thankYou = new RegExp( `thank you ${process.env.ROBOT_NAME}`, 'i' );
+    const thankYouUserId = new RegExp( `thank you <@${process.env.BOT_ID}>`, 'i' );
+
     const welcome = new RegExp( '^!welcome', 'i' );
-
-
-    let response = '';
 
     // user example: where is R2D8?
     // user example: where's R2D8?
-    if ( message.match( whereIs ) != null || message.match( wheres ) != null ) {
+    if ( message.match( whereIs ) != null || message.match( wheres ) != null
+        || message.match( whereIsUserId ) || message.match( wheresUserId ) != null ) {
         response = `There is no ${process.env.ROBOT_NAME}. There is only Zuul.`;
     }
 
     // user example: thank you R2D8
     // user example: thanks R2D8
-    else if ( message.match( thanks ) != null || message.match( thankYou ) != null ) {
+    else if ( message.match( thanks ) != null || message.match( thankYou ) != null
+      || message.match( thanksUserId ) != null || message.match( thankYouUserId ) ) {
         response = 'At your service.';
     }
 
@@ -54,7 +64,6 @@ const getMessageResponse = function( event ) {
         response = constants.WELCOME_MESSAGE;
     }
 
-    // console.info(`response: ${response}`)
     return response;
 };
 
