@@ -44,26 +44,39 @@ describe( 'messageHelper', () => {
         } );
 
         describe( 'bot_profile.name', () => {
-            test( 'is "bot"', () => {
-                event.subtype = 'not bot_message';
+            const OLD_ENV = process.env;
+            const botName = 'bot bot';
+
+            beforeEach( () => {
+                jest.resetModules(); // this is important - it clears the cache
+                process.env = {
+                    ...OLD_ENV,
+                    ROBOT_NAME: botName
+                };
+                delete process.env.NODE_ENV;
+            
+                event.text = '';
+            } );
+        
+            afterEach( () => {
+                process.env = OLD_ENV;
+            } );
+
+            test( 'is process.env.ROBOT_NAME', () => {
                 event.bot_profile = {
-                    name: 'bot'
+                    name: botName
                 };
     
                 expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
             } );
     
-            test( 'is not "bot"', () => {
-                event.subtype = 'not bot_message';
-    
+            test( 'is not process.env.ROBOT_NAME', () => {
                 event.bot_profile = {
                     name: 'not bot'
                 };
     
                 expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
             } );
-    
-
         } );
     } );
 
