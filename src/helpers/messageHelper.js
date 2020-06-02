@@ -9,13 +9,6 @@ const messageIsFromABot = function( event ) {
 };
 
 const getMessageResponse = function( event ) {
-    // console.debug(JSON.stringify(event, null, 2))
-    // console.debug(process.env.ROBOT_NAME);
-
-    if( process.env.BOT_ID != null ) {
-        console.debug( `process.env.BOT_ID: ${process.env.BOT_ID}` );
-        console.debug( `event: ${JSON.stringify( event, null, 2 )}` );
-    }
     const message = event.text;
     let response = '';
 
@@ -36,10 +29,6 @@ const getMessageResponse = function( event ) {
     const thankYouUserId = new RegExp( `thank you <@${process.env.BOT_ID}>`, 'i' );
 
     const welcome = new RegExp( '^!welcome', 'i' );
-
-    if ( message.match( wheresUserId ) != null ) {
-        response = 'we\'re in the single if';
-    }
 
     // user example: where is R2D8?
     // user example: where's R2D8?
@@ -75,7 +64,6 @@ const getMessageResponse = function( event ) {
         response = constants.WELCOME_MESSAGE;
     }
 
-    // console.info(`response: ${response}`)
     return response;
 };
 

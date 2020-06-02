@@ -117,7 +117,6 @@ describe( 'messageHelper', () => {
             test( 'user id', () => {
                 process.env.BOT_ID = '12345';
                 event.text = `where's <@${process.env.BOT_ID}>`;
-                console.debug( `event.text in user id test: ${event.text}` );
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( onlyZuul );
             } );
         } );
