@@ -2,7 +2,7 @@ const constants = require( './constants.js' );
 
 const messageIsFromABot = function( event ) {
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
-      ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name == 'bot' ) ) ) {
+      ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name == process.env.ROBOT_NAME ) ) ) {
         return true;
     }
     return false;
@@ -12,7 +12,7 @@ const getMessageResponse = function( event ) {
     const message = event.text;
     let response = '';
 
-    if( message === null || message === undefined ) {
+    if( message === null || message === undefined || messageIsFromABot( event ) ) {
         return response;
     }
 
@@ -53,8 +53,11 @@ const getMessageResponse = function( event ) {
     else if ( message.match( /\btop o.? the (morn|mornin)/i ) != null ) {
         response = 'And the rest of the day to yas.';
     }
+    // On 6.2.2020, typing "@channel" in Slack gets sent to the bot as "!channel"
+    // we'll cover both cases in case Slack changes its mind.
+
     // user example: @channel
-    else if ( message.match( /@channel/ ) ) {
+    else if ( message.match( /(@|!)channel/ ) ) {
     // response = 'Please use `@here` for group notifications instead. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users. (Repeated `@channel` usage is considered a CoC violation.)';
         response = constants.USE_HERE_INSTEAD;
     }

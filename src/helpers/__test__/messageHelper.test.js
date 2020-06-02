@@ -11,54 +11,72 @@ describe( 'messageHelper', () => {
                 type: 'message'
             };
         } );
+        
+        describe( 'subtype', () => {
+            test( '"bot_message"', () => {
+                event.subtype = 'bot_message';
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
+            } );
+            
+            test( 'subtype is not "bot_message"', () => {
+                event.subtype = 'not bot_message';
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
+        } );
+        
+        describe( 'bot.profile', () => {
+            beforeEach( () => {
+                event.subtype = 'not bot_message';
+            } );
 
-        test( 'subtype is "bot_message"', () => {
-            event.subtype = 'bot_message';
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
+            test( 'is undefined', () => {
+                event.bot_profile = undefined;
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
+    
+            test( 'is null', () => {
+                event.bot_profile = null;
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
+
         } );
 
-        test( 'subtype is not "bot_message"', () => {
-            event.subtype = 'not bot_message';
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
-        } );
+        describe( 'bot_profile.name', () => {
+            const OLD_ENV = process.env;
+            const botName = 'bot bot';
 
-        test( 'bot_profile.name is "bot"', () => {
-            event.subtype = 'not bot_message';
-            event.bot_profile = {
-                name: 'bot'
-            };
+            beforeEach( () => {
+                jest.resetModules(); // this is important - it clears the cache
+                process.env = {
+                    ...OLD_ENV,
+                    ROBOT_NAME: botName
+                };
+                delete process.env.NODE_ENV;
+            
+                event.text = '';
+            } );
+        
+            afterEach( () => {
+                process.env = OLD_ENV;
+            } );
 
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
-        } );
-
-        test( 'bot_profile.name is not "bot"', () => {
-            event.subtype = 'not bot_message';
-
-            event.bot_profile = {
-                name: 'not bot'
-            };
-
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
-        } );
-
-        test( 'bot_profile.name is undefined', () => {
-            event.subtype = 'not bot_message';
-
-            event.bot_profile = {
-                name: undefined
-            };
-
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
-        } );
-
-        test( 'bot_profile.name is null', () => {
-            event.subtype = 'not bot_message';
-
-            event.bot_profile = {
-                name: null
-            };
-
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            test( 'is process.env.ROBOT_NAME', () => {
+                event.bot_profile = {
+                    name: botName
+                };
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
+            } );
+    
+            test( 'is not process.env.ROBOT_NAME', () => {
+                event.bot_profile = {
+                    name: 'not bot'
+                };
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
         } );
     } );
 
@@ -198,9 +216,18 @@ describe( 'messageHelper', () => {
                 };
                 expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.USE_HERE_INSTEAD );
             } );
+
+            // On 6.2.2020, typing "@channel" in Slack gets sent to the bot as "!channel"
+            // we'll cover both cases in case Slack changes its mind.
+            test( '@ converted to !', () => {
+                const event = {
+                    text: '!channel fa la la'
+                };
+                expect( messageHelper.getMessageResponse( event ) ).toEqual( constants.USE_HERE_INSTEAD );
+            } );
         } );
 
-        describe( 'Code of Conduct', () => {
+        describe( 'Welcome Message', () => {
             beforeEach( () => {
                 jest.resetModules(); // this is important - it clears the cache
                 process.env = {
