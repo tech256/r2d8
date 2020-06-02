@@ -12,14 +12,16 @@ describe( 'messageHelper', () => {
             };
         } );
 
-        test( 'subtype is "bot_message"', () => {
-            event.subtype = 'bot_message';
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
-        } );
-
-        test( 'subtype is not "bot_message"', () => {
-            event.subtype = 'not bot_message';
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+        describe( 'subtype', () => {
+            test( '"bot_message"', () => {
+                event.subtype = 'bot_message';
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
+            } );
+    
+            test( 'subtype is not "bot_message"', () => {
+                event.subtype = 'not bot_message';
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
         } );
 
         test( 'bot_profile.name is "bot"', () => {
