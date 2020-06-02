@@ -209,7 +209,7 @@ describe( 'messageHelper', () => {
             } );
         } );
 
-        describe( 'Code of Conduct', () => {
+        describe( 'Welcome Message', () => {
             beforeEach( () => {
                 jest.resetModules(); // this is important - it clears the cache
                 process.env = {
