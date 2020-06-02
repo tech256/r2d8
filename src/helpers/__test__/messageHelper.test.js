@@ -11,56 +11,59 @@ describe( 'messageHelper', () => {
                 type: 'message'
             };
         } );
-
+        
         describe( 'subtype', () => {
             test( '"bot_message"', () => {
                 event.subtype = 'bot_message';
                 expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
             } );
-    
+            
             test( 'subtype is not "bot_message"', () => {
                 event.subtype = 'not bot_message';
                 expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
             } );
         } );
+        
+        describe( 'bot.profile', () => {
+            beforeEach( () => {
+                event.subtype = 'not bot_message';
+            } );
 
-        test( 'bot_profile.name is "bot"', () => {
-            event.subtype = 'not bot_message';
-            event.bot_profile = {
-                name: 'bot'
-            };
+            test( 'is undefined', () => {
+                event.bot_profile = undefined;
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
+    
+            test( 'is null', () => {
+                event.bot_profile = null;
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
 
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
         } );
 
-        test( 'bot_profile.name is not "bot"', () => {
-            event.subtype = 'not bot_message';
+        describe( 'bot_profile.name', () => {
+            test( 'is "bot"', () => {
+                event.subtype = 'not bot_message';
+                event.bot_profile = {
+                    name: 'bot'
+                };
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
+            } );
+    
+            test( 'is not "bot"', () => {
+                event.subtype = 'not bot_message';
+    
+                event.bot_profile = {
+                    name: 'not bot'
+                };
+    
+                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
+            } );
+    
 
-            event.bot_profile = {
-                name: 'not bot'
-            };
-
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
-        } );
-
-        test( 'bot_profile.name is undefined', () => {
-            event.subtype = 'not bot_message';
-
-            event.bot_profile = {
-                name: undefined
-            };
-
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
-        } );
-
-        test( 'bot_profile.name is null', () => {
-            event.subtype = 'not bot_message';
-
-            event.bot_profile = {
-                name: null
-            };
-
-            expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
         } );
     } );
 
