@@ -25,7 +25,7 @@ const getMessageResponse = function( event ) {
     const whereIs = new RegExp( `where is ${process.env.ROBOT_NAME}`, 'i' );
     const whereIsUserId = new RegExp( `where is <@${process.env.BOT_ID}>`, 'i' );
   
-    const wheres = new RegExp( `where's ${process.env.ROBOT_NAME}`, 'i' );
+    const wheres = new RegExp( `where.s ${process.env.ROBOT_NAME}`, 'i' );
     const wheresUserId = new RegExp( `where.s <@${process.env.BOT_ID}>`, 'i' );
 
     const thanks = new RegExp( `thanks ${process.env.ROBOT_NAME}`, 'i' );
