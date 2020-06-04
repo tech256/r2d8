@@ -1,14 +1,20 @@
 const constants = require( './constants.js' );
 
 const messageIsFromABot = function( event ) {
+    const botName = new RegExp( process.env.ROBOT_NAME, 'i' );
+
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
-      ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name == process.env.ROBOT_NAME ) ) ) {
+      ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name.match( botName ) != null ) ) ) {
         return true;
     }
     return false;
 };
 
 const getMessageResponse = function( event ) {
+    if( process.env.DEBUG == true ) {
+        console.debug( `event: ${JSON.stringify( event, null, 2 )}` );
+    }
+
     const message = event.text;
     let response = '';
 
