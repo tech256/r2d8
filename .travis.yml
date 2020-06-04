@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+  - node
+cache: yarn
+jobs:
+  include:
+    - stage: test
+      script:
+        - echo 'Build starting...'
+        - echo 'Installing dependencies...'
+        - yarn
+        - echo 'Running unit tests...'
+        - yarn test
+    - stage: deploy
+      script:
+        - echo 'Begininning deployment...'
+        - echo 'Installing dependencies...'
+        - yarn start
+stages:
+  - name: test
+    # require the type to be a PR
+    if: type = pull_request
+  - name: deploy
+    # require the type to be push to master
+    if: type = push AND branch = master
