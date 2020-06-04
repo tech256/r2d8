@@ -102,6 +102,39 @@ describe( 'messageHelper', () => {
         afterEach( () => {
             process.env = OLD_ENV;
         } );
+
+        describe( 'processs.env.DEBUG', () => {
+            let consoleSpy = null;
+            
+            beforeEach( () => {
+                consoleSpy = jest.spyOn( console, 'debug' ).mockImplementation();
+                
+                event = {
+                    debugKey: 'debug value'
+                };
+            } );
+
+            afterEach( () => {
+                if( consoleSpy != null ) {
+                    consoleSpy.mockRestore();
+                }
+            } );
+
+            test( 'prints when true', () => {
+                process.env.DEBUG = true;
+
+                messageHelper.getMessageResponse( event );
+                expect( consoleSpy ).toHaveBeenCalledTimes( 1 );
+                expect( consoleSpy ).toHaveBeenCalledWith( `event: ${JSON.stringify( event, null, 2 )}` );
+            } );
+
+            test( 'does NOT print when false', () => {
+                process.env.DEBUG = false;
+
+                messageHelper.getMessageResponse( event );
+                expect( consoleSpy ).toHaveBeenCalledTimes( 0 );
+            } );
+        } );
         
         describe( 'where is', () => {
             test( 'lowercase', () => {

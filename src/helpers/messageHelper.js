@@ -11,6 +11,10 @@ const messageIsFromABot = function( event ) {
 };
 
 const getMessageResponse = function( event ) {
+    if( process.env.DEBUG == true ) {
+        console.debug( `event: ${JSON.stringify( event, null, 2 )}` );
+    }
+
     const message = event.text;
     let response = '';
 
