@@ -14,4 +14,4 @@ jobs:
 stages:
   - name: test
     # require the type to be a PR
-    if: type = pull_request
+    if: type = pull_request OR ( type = push AND branch = master )
