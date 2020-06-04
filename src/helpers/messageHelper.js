@@ -1,6 +1,8 @@
 const constants = require( './constants.js' );
 
 const messageIsFromABot = function( event ) {
+    console.debug(`event.bot_profile: ${JSON.stringify(event.bot_profile, null, 2 )}`)
+    console.debug(`process.env.ROBOT_NAME: ${JSON.stringify(process.env.ROBOT_NAME, null, 2 )}`)
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
       ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name == process.env.ROBOT_NAME ) ) ) {
         return true;
@@ -9,6 +11,7 @@ const messageIsFromABot = function( event ) {
 };
 
 const getMessageResponse = function( event ) {
+    console.debug(`event: ${event}`)
     const message = event.text;
     let response = '';
 
@@ -19,7 +22,7 @@ const getMessageResponse = function( event ) {
     const whereIs = new RegExp( `where is ${process.env.ROBOT_NAME}`, 'i' );
     const whereIsUserId = new RegExp( `where is <@${process.env.BOT_ID}>`, 'i' );
   
-    const wheres = new RegExp( `where's ${process.env.ROBOT_NAME}`, 'i' );
+    const wheres = new RegExp( `where.s ${process.env.ROBOT_NAME}`, 'i' );
     const wheresUserId = new RegExp( `where.s <@${process.env.BOT_ID}>`, 'i' );
 
     const thanks = new RegExp( `thanks ${process.env.ROBOT_NAME}`, 'i' );
