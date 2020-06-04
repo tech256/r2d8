@@ -62,7 +62,8 @@ const startBot = () => {
 
         // Only log when the bot actually has something to say
         if ( response !== '' ) {
-            logger.debug( `${process.env.ROBOT_NAME} says: ${response}` );
+            logger.log( 'debug', `${process.env.ROBOT_NAME} says: ${response}` );
+            logger.debug( 'debug', JSON.stringify(bot) );
             
             // let the bot speak man!
             bot.postMessage( event.channel, response, {
