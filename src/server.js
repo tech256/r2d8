@@ -9,7 +9,7 @@ const server = http.createServer( function( request, response ) {
             'name': `${process.env.ROBOT_NAME}`,
             'status': 'Operational'
         };
-        
+
         response.setHeader( 'Content-Type', 'application/json' ); // http header
         response.write( JSON.stringify( json ) );
         response.end();

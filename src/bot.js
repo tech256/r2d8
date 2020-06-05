@@ -64,7 +64,7 @@ const startBot = () => {
         if ( response !== '' ) {
             logger.log( 'debug', `${process.env.ROBOT_NAME} says: ${response}` );
             logger.log( 'debug', JSON.stringify(bot) );
-            
+
             // let the bot speak man!
             bot.postMessage( event.channel, response, {
                 as_user: true
