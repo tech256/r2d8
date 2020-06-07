@@ -104,39 +104,6 @@ describe( 'messageHelper', () => {
             process.env = OLD_ENV;
         } );
 
-        describe( 'processs.env.LOG_LEVEL', () => {
-            let consoleSpy = null;
-
-            beforeEach( () => {
-                consoleSpy = jest.spyOn( logger, 'LOG_LEVEL' ).mockImplementation();
-
-                event = {
-                    debugKey: 'log level value'
-                };
-            } );
-
-            afterEach( () => {
-                if( consoleSpy != null ) {
-                    consoleSpy.mockRestore();
-                }
-            } );
-
-            test( 'prints when log level is set to debug', () => {
-                process.env.LOG_LEVEL = 'debug';
-
-                messageHelper.getMessageResponse( event );
-                expect( consoleSpy ).toHaveBeenCalledTimes( 1 );
-                expect( consoleSpy ).toHaveBeenCalledWith( `event: ${JSON.stringify( event, null, 2 )}` );
-            } );
-
-            test( 'does NOT print when log level is set to info', () => {
-                process.env.LOG_LEVEL = 'info';
-
-                messageHelper.getMessageResponse( event );
-                expect( consoleSpy ).toHaveBeenCalledTimes( 0 );
-            } );
-        } );
-
         describe( 'where is', () => {
             test( 'lowercase', () => {
                 event.text = 'where is ' + botName.toLowerCase() + '?';
