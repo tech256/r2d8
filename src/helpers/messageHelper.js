@@ -81,7 +81,7 @@ const getMessageResponse = function( event ) {
  * null
  * undefined
  * a zero-length array
- * a zero-length string (Unless the `allowEmptyString` parameter is set to `true`)
+ * a zero-length string
  */
 const isEmpty = function( obj ) {
     return ( obj == null ) || ( obj === '' ) || ( Array.isArray( obj ) && obj.length === 0 );
