@@ -14,7 +14,7 @@ describe( 'messageHelper', () => {
             };
         } );
 
-        describe( 'foo bar', () => {
+        describe( 'calls "isEmpty"', () => {
             let isEmptySpy;
 
             beforeEach( () => {
@@ -27,14 +27,26 @@ describe( 'messageHelper', () => {
                 }
             } );
 
-            test( 'calls isEmpty', () => {
+            test( 'name is undefined', () => {
                 event.bot_profile = {
-                    name : 'foo bar'
+                    foo : 'bar'
                 };
                 event.subtype = 'not bot_message';
                 messageHelper.messageIsFromABot( event );
-                expect( isEmptySpy ).toHaveBeenCalledTimes( 1 );
-                expect( isEmptySpy ).toHaveBeenCalledWith( event.bot_profile );
+                expect( isEmptySpy ).toHaveBeenCalledTimes( 2 );
+                expect( isEmptySpy ).toHaveBeenNthCalledWith( 1,  event.bot_profile );
+                expect( isEmptySpy ).toHaveBeenNthCalledWith( 2,  undefined );
+            } );
+
+            test( 'name is not undefined', () => {
+                event.bot_profile = {
+                    name : 'someName'
+                };
+                event.subtype = 'not bot_message';
+                messageHelper.messageIsFromABot( event );
+                expect( isEmptySpy ).toHaveBeenCalledTimes( 2 );
+                expect( isEmptySpy ).toHaveBeenNthCalledWith( 1,  event.bot_profile );
+                expect( isEmptySpy ).toHaveBeenNthCalledWith( 2,  event.bot_profile.name );
             } );
         } );
 
@@ -94,14 +106,6 @@ describe( 'messageHelper', () => {
                 };
 
                 expect( messageHelper.messageIsFromABot( event ) ).toEqual( true );
-            } );
-
-            test( 'is not process.env.ROBOT_NAME', () => {
-                event.bot_profile = {
-                    name: 'not bot'
-                };
-
-                expect( messageHelper.messageIsFromABot( event ) ).toEqual( false );
             } );
         } );
     } );

@@ -3,18 +3,14 @@ const helpers = require( '../helpers/helpers' );
 const logger = require( '../logger' );
 
 const messageIsFromABot = function( event ) {
-    const botName = new RegExp( process.env.ROBOT_NAME, 'i' );
-
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
-      ( !helpers.isEmpty( event.bot_profile ) && event.bot_profile.name.match( botName ) != null ) ) ) {
+      ( !helpers.isEmpty( event.bot_profile ) && !helpers.isEmpty( event.bot_profile.name ) ) ) ) {
         return true;
     }
     return false;
 };
 
 const getMessageResponse = function( event ) {
-    logger.log( 'debug', `event: ${JSON.stringify( event, null, 4 )}` );
-
     const message = event.text;
     let response = '';
 
@@ -39,14 +35,14 @@ const getMessageResponse = function( event ) {
     // user example: where is R2D8?
     // user example: where's R2D8?
     if ( message.match( whereIs ) != null || message.match( wheres ) != null
-        || message.match( whereIsUserId ) || message.match( wheresUserId ) != null ) {
+        || message.match( whereIsUserId ) != null || message.match( wheresUserId ) != null ) {
         response = `There is no ${process.env.ROBOT_NAME}. There is only Zuul.`;
     }
 
     // user example: thank you R2D8
     // user example: thanks R2D8
     else if ( message.match( thanks ) != null || message.match( thankYou ) != null
-      || message.match( thanksUserId ) != null || message.match( thankYouUserId ) ) {
+      || message.match( thanksUserId ) != null || message.match( thankYouUserId ) != null ) {
         response = 'At your service.';
     }
 
@@ -63,7 +59,7 @@ const getMessageResponse = function( event ) {
     // we'll cover both cases in case Slack changes its mind.
 
     // user example: @channel
-    else if ( message.match( /(@|!)channel/ ) ) {
+    else if ( message.match( /(@|!)channel/ ) != null ) {
     // response = 'Please use `@here` for group notifications instead. This is a thoughtful alternative that avoids unnecessary notifications sent to inactive users. (Repeated `@channel` usage is considered a CoC violation.)';
         response = constants.USE_HERE_INSTEAD;
     }
