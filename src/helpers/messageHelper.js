@@ -1,30 +1,30 @@
 const constants = require( './constants.js' );
+const helpers = require( '../helpers/helpers' );
+const logger = require( '../logger' );
 
 const messageIsFromABot = function( event ) {
     const botName = new RegExp( process.env.ROBOT_NAME, 'i' );
 
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
-      ( event.bot_profile !== null && event.bot_profile !== undefined && event.bot_profile.name.match( botName ) != null ) ) ) {
+      ( !helpers.isEmpty( event.bot_profile ) && event.bot_profile.name.match( botName ) != null ) ) ) {
         return true;
     }
     return false;
 };
 
 const getMessageResponse = function( event ) {
-    if( process.env.DEBUG == true ) {
-        console.debug( `event: ${JSON.stringify( event, null, 2 )}` );
-    }
+    logger.log( 'debug', `event: ${JSON.stringify( event, null, 4 )}` );
 
     const message = event.text;
     let response = '';
 
-    if( message === null || message === undefined || messageIsFromABot( event ) ) {
+    if( helpers.isEmpty( message ) || messageIsFromABot( event ) ) {
         return response;
     }
 
     const whereIs = new RegExp( `where is ${process.env.ROBOT_NAME}`, 'i' );
     const whereIsUserId = new RegExp( `where is <@${process.env.BOT_ID}>`, 'i' );
-  
+
     const wheres = new RegExp( `where.s ${process.env.ROBOT_NAME}`, 'i' );
     const wheresUserId = new RegExp( `where.s <@${process.env.BOT_ID}>`, 'i' );
 
@@ -68,7 +68,7 @@ const getMessageResponse = function( event ) {
         response = constants.USE_HERE_INSTEAD;
     }
     // user example: !welcome
-    else if ( ( message.match( welcome ) != null ) && 
+    else if ( ( message.match( welcome ) != null ) &&
       ( process.env.ENABLE_WELCOME_MESSAGE === 'true' || process.env.ENABLE_WELCOME_MESSAGE === true ) ) {
         response = constants.WELCOME_MESSAGE;
     }
