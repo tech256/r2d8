@@ -1,11 +1,12 @@
 const constants = require( './constants.js' );
+const helpers = require( '../helpers/helpers' );
 const logger = require( '../logger' );
 
 const messageIsFromABot = function( event ) {
     const botName = new RegExp( process.env.ROBOT_NAME, 'i' );
 
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
-      ( !isEmpty( event.bot_profile ) && event.bot_profile.name.match( botName ) != null ) ) ) {
+      ( !helpers.isEmpty( event.bot_profile ) && event.bot_profile.name.match( botName ) != null ) ) ) {
         return true;
     }
     return false;
@@ -17,7 +18,7 @@ const getMessageResponse = function( event ) {
     const message = event.text;
     let response = '';
 
-    if( isEmpty( message ) || messageIsFromABot( event ) ) {
+    if( helpers.isEmpty( message ) || messageIsFromABot( event ) ) {
         return response;
     }
 
@@ -73,18 +74,6 @@ const getMessageResponse = function( event ) {
     }
 
     return response;
-};
-
-/**
- * Returns true if the value is empty, otherwise it returns false. The value is deemed to be empty if it is either:
- *
- * null
- * undefined
- * a zero-length array
- * a zero-length string
- */
-const isEmpty = function( obj ) {
-    return ( obj == null ) || ( obj === '' ) || ( Array.isArray( obj ) && obj.length === 0 );
 };
 
 module.exports = {

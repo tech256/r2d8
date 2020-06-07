@@ -1,5 +1,6 @@
 const messageHelper = require( '../messageHelper' );
 const constants = require( '../constants' );
+const helpers = require( '../helpers' );
 const logger = require( '../../logger' );
 
 describe( 'messageHelper', () => {
@@ -11,6 +12,30 @@ describe( 'messageHelper', () => {
             event = {
                 type: 'message'
             };
+        } );
+
+        describe( 'foo bar', () => {
+            let isEmptySpy;
+
+            beforeEach( () => {
+                isEmptySpy = jest.spyOn( helpers, 'isEmpty' ).mockImplementation();
+            } );
+
+            afterEach( () => {
+                if( isEmptySpy != null ) {
+                    isEmptySpy.mockRestore();
+                }
+            } );
+
+            test( 'calls isEmpty', () => {
+                event.bot_profile = {
+                    name : 'foo bar'
+                };
+                event.subtype = 'not bot_message';
+                messageHelper.messageIsFromABot( event );
+                expect( isEmptySpy ).toHaveBeenCalledTimes( 1 );
+                expect( isEmptySpy ).toHaveBeenCalledWith( event.bot_profile );
+            } );
         } );
 
         describe( 'subtype', () => {
