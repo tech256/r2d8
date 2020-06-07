@@ -22,8 +22,10 @@ const startBot = () => {
 
         logger.log( 'info', `Bot ${process.env.ROBOT_NAME} has started.` );
 
+        // For tech256, the bot's name is "bot", but this code should otherwise be agnostic and shouldn't care about the string "bot"
         bot.getUserId( `${bot.name}` ).then( ( uid ) => {
             process.env.BOT_ID = uid;
+            logger.log( 'debug', `BOT_ID = ${uid}`);
         } );
     } );
 
@@ -63,7 +65,6 @@ const startBot = () => {
         // Only log when the bot actually has something to say
         if ( response !== '' ) {
             logger.log( 'debug', `${process.env.ROBOT_NAME} says: ${response}` );
-            logger.log( 'debug', JSON.stringify(bot) );
 
             // let the bot speak man!
             bot.postMessage( event.channel, response, {
