@@ -3,10 +3,8 @@ const helpers = require( '../helpers/helpers' );
 const logger = require( '../logger' );
 
 const messageIsFromABot = function( event ) {
-    const botName = new RegExp( process.env.ROBOT_NAME, 'i' );
-
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||
-      ( !helpers.isEmpty( event.bot_profile ) && event.bot_profile.name.match( botName ) != null ) ) ) {
+      ( !helpers.isEmpty( event.bot_profile ) && !helpers.isEmpty( event.bot_profile.name ) ) ) ) {
         return true;
     }
     return false;
