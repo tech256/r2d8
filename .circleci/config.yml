@@ -9,8 +9,7 @@ jobs:
       - checkout
       - node/with-cache:
           steps:
-            - run: npm install yarn
-            - run: yarn install
+            - run: npm install
             - run: npm test
 workflows:
     build-and-test:
