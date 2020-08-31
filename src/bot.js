@@ -10,8 +10,7 @@ const startBot = () => {
     // setup the bot
     bot = new SlackBot( {
         token: process.env.SLACK_TOKEN,
-        name: process.env.ROBOT_NAME,
-        link_names: true
+        name: process.env.ROBOT_NAME
     } );
 
     // start handler
@@ -69,7 +68,8 @@ const startBot = () => {
 
             // let the bot speak man!
             bot.postMessage( event.channel, response, {
-                as_user: true
+                as_user: true,
+                link_names: true
             } );
         }
     } );
