@@ -9,6 +9,7 @@
   "private": true,
   "dependencies": {
     "dotenv": "^8.2.0",
+    "sequelize": "^6.3.5",
     "slackbots": "^1.2.0",
     "winston": "^3.2.1"
   },
