@@ -50,8 +50,8 @@ const incrementPoint = ( message, points ) => {
 };
 
 //Precheck for inc, dec, create - does the phrase exist in our DB?
-const messageExists = async( message ) => {
-    // console.log( 'in messageExists' );
+const getPhraseFromDatabase = async( message ) => {
+    // console.log( 'in getPhraseFromDatabase' );
     await setupDB();
     try {
         const phrase = await Phrase.findAll( {
@@ -60,10 +60,10 @@ const messageExists = async( message ) => {
             }
         } );
         // console.log( JSON.stringify( phrase, null, 4 ) );
-        return phrase.length > 0 ? true : false;
+        return phrase;
     } catch ( error ) {
         logger.log( error );
     }
 };
 
-module.exports = {addPhrase, incrementPoint, messageExists};
+module.exports = {addPhrase, incrementPoint, getPhraseFromDatabase};

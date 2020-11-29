@@ -11,13 +11,13 @@ describe( 'Karma', () => {
         } );
         it( 'exists', async() => {
             Phrase.findAll = jest.fn().mockResolvedValue( [{}] );
-            const result = await karma.messageExists( 'this is a test' );
-            expect( result ).toEqual( true );
+            const result = await karma.getPhraseFromDatabase( 'this is a test' );
+            expect( result ).toEqual( [{}] );
         } );
         it( 'does not exist', async() => {
             Phrase.findAll = jest.fn().mockResolvedValue( [] );
-            const result = await karma.messageExists( 'hello' );
-            expect( result ).toEqual( false );
+            const result = await karma.getPhraseFromDatabase( 'hello' );
+            expect( result ).toEqual( [] );
         } );
     } );
 } );
