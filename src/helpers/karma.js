@@ -1,24 +1,6 @@
-const db = require( '../../config/database' );
 const Phrase = require( '../../models/phrase' );
 const logger = require( '../logger' );
-
-//TODO Authenticate/Close
-const setupDB = async() => {
-    try {
-        // console.log( 'in SetupDB' );
-        await db.authenticate();
-    } catch ( err ) {
-        //TODO hook up to Winston
-        console.log( 'Error ' + err );
-    }
-    try {
-        // console.log( 'in dbSync' );
-        await db.sync();
-    } catch ( err ) {
-        //TODO hook up to Winston
-        console.log( 'Error ' + err );
-    }
-};
+const dbHelpers = require( './databaseHelpers' );
 
 //ADD RECORD
 const addPhrase = () => {
@@ -52,7 +34,7 @@ const incrementPoint = ( message, points ) => {
 //Precheck for inc, dec, create - does the phrase exist in our DB?
 const getPhraseFromDatabase = async( message ) => {
     // console.log( 'in getPhraseFromDatabase' );
-    await setupDB();
+    await dbHelpers.setupDB();
     try {
         const phrase = await Phrase.findAll( {
             where: {
