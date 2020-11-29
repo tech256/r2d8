@@ -1,7 +1,24 @@
 const db = require( '../../config/database' );
 const Phrase = require( '../../models/phrase' );
+const logger = require( '../logger' );
 
-//TODO Add Karma Related Things in Here
+//TODO Authenticate/Close
+const setupDB = async() => {
+    try {
+        // console.log( 'in SetupDB' );
+        await db.authenticate();
+    } catch ( err ) {
+        //TODO hook up to Winston
+        console.log( 'Error ' + err );
+    }
+    try {
+        // console.log( 'in dbSync' );
+        await db.sync();
+    } catch ( err ) {
+        //TODO hook up to Winston
+        console.log( 'Error ' + err );
+    }
+};
 
 //ADD RECORD
 const addPhrase = () => {
@@ -32,4 +49,21 @@ const incrementPoint = ( message, points ) => {
         .catch( ( err ) => console.log( 'error ' + err ) );
 };
 
-module.exports = {addPhrase, incrementPoint};
+//Precheck for inc, dec, create - does the phrase exist in our DB?
+const messageExists = async( message ) => {
+    // console.log( 'in messageExists' );
+    await setupDB();
+    try {
+        const phrase = await Phrase.findAll( {
+            where: {
+                message: message
+            }
+        } );
+        // console.log( JSON.stringify( phrase, null, 4 ) );
+        return phrase.length > 0 ? true : false;
+    } catch ( error ) {
+        logger.log( error );
+    }
+};
+
+module.exports = {addPhrase, incrementPoint, messageExists};
