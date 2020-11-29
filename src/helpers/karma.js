@@ -3,13 +3,16 @@ const logger = require( '../logger' );
 const dbHelpers = require( './databaseHelpers' );
 
 //ADD RECORD
-const addPhrase = () => {
-    Phrase.create( {
-        message: 'this is a test',
-        points: 50,
-    } )
-        .then( ( phrase ) => console.log( phrase ) )
-        .catch( ( err ) => console.log( 'error ' + err ) );
+const addPhrase = async( message, points ) => {
+    try {
+        // TODO: return created object to calling function
+        await Phrase.create( {
+            message: message,
+            points: points,
+        } );
+    } catch( err ) {
+        logger.log( err );
+    }
 };
 
 //EDIT RECORD
