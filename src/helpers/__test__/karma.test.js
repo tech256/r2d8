@@ -1,7 +1,5 @@
-require( 'dotenv' ).config();
 const Phrase = require( '../../../models/phrase' );
 const karma = require( '../karma.js' );
-const db = require( '../../../config/database' );
 const databaseHelpers = require( '../databaseHelpers' );
 
 describe( 'Karma', () => {
