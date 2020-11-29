@@ -19,5 +19,15 @@ describe( 'Karma', () => {
             const result = await karma.getPhraseFromDatabase( 'hello' );
             expect( result ).toEqual( [] );
         } );
+        it ( 'calls db.authenticate only once', async() => {
+            Phrase.findAll = jest.fn();
+            await karma.getPhraseFromDatabase( 'foo bar baz' );
+            expect( db.authenticate ).toHaveBeenCalledTimes( 1 );
+        } );
+        it ( 'calls db.sync only once', async() => {
+            Phrase.findAll = jest.fn();
+            await karma.getPhraseFromDatabase( 'foo bar baz' );
+            expect( db.sync ).toHaveBeenCalledTimes( 1 );
+        } );
     } );
 } );
