@@ -65,5 +65,39 @@ describe( 'Karma', () => {
                 } );
             } );
         } );
+        describe( 'message does not exist in database', () => {
+            test( 'returns "message: points"', async() => {
+                karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( [] );
+                karmaHelpers.addPhrase = jest.fn().mockResolvedValue( {message: 'a message', points: 33} );
+
+                const returnValue = await karma.increment( 'some message' );
+                expect( returnValue ).toEqual( 'a message: 33' );
+            } );
+            describe( 'karmaHelpers.addPhrase', () => {
+                beforeEach( async() => {
+                    karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( [] );
+                } );
+                test( 'is called once', async() => {
+                    karmaHelpers.addPhrase = jest.fn();
+                    const message = 'test message';
+                    await karma.increment( message );
+                    
+                    expect( karmaHelpers.addPhrase ).toHaveBeenCalledTimes( 1 );
+                    expect( karmaHelpers.addPhrase ).toHaveBeenCalledWith( message, 1 );
+                } );
+                test( 'throws error', async() => {
+                    const addError = new Error( 'add error' );
+                    karmaHelpers.addPhrase = jest.fn().mockImplementation( () => {
+                        throw addError;
+                    } );
+
+                    logger.log = jest.fn();
+
+                    await karma.increment( 'any message' );
+                    expect( logger.log ).toHaveBeenCalledTimes( 1 );
+                    expect( logger.log ).toHaveBeenCalledWith( addError );
+                } );
+            } );
+        } );
     } );
 } );

@@ -1,6 +1,6 @@
 const Phrase = require( '../../models/phrase' );
 const logger = require( '../logger' );
-const karmaHelpers = require ( './karmaHelpers' );
+const karmaHelpers = require( './karmaHelpers' );
 
 
 
@@ -25,14 +25,15 @@ const increment = async( message ) => {
             logger.log( err );
         }
 
-        // update
+        // add record
     } else {
-        // add to db
+        try {
+            const newPhrase = await karmaHelpers.addPhrase( message, 1 );
+            return newPhrase.message + ': ' + newPhrase.points;
+        } catch ( err ) {
+            logger.log( err );
+        }
     }
-    
-    // return message + points
-
-    
 };
 
 module.exports = {increment};
