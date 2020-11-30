@@ -6,11 +6,15 @@ const dbHelpers = require( './databaseHelpers' );
 const addPhrase = async( message, points ) => {
     try {
         // TODO: return created object to calling function
-        await Phrase.create( {
+        const phrase = await Phrase.create( {
             message: message,
             points: points,
+        }, {
+            returning: true,
+            plain: true
         } );
-    } catch( err ) {
+        return phrase;
+    } catch ( err ) {
         logger.log( err );
     }
 };

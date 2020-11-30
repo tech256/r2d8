@@ -38,16 +38,22 @@ describe( 'karmaHelpers', () => {
             test( 'with message and points', async() => {
                 await karmaHelpers.addPhrase( 'foobar', 33 );
 
-                const expectedObject = {
+                const expectedObject1 = {
                     message: 'foobar',
                     points: 33
                 };
-                expect( Phrase.create ).toHaveBeenCalledWith( expectedObject );
+                const expectedObject2 = {
+                    returning: true,
+                    plain: true
+                };
+                expect( Phrase.create ).toHaveBeenCalledWith( expectedObject1, expectedObject2 );
             } );
         } );
         test( 'logs error', async() => {
             const expectedError = Error( 'foobar' );
-            Phrase.create = jest.fn().mockImplementation( () => { throw  expectedError;} )
+            Phrase.create = jest.fn().mockImplementation( () => {
+                throw  expectedError;
+            } )
                 .mockName( 'Phrase.create throws error mock' );
     
             logger.log = jest.fn().mockName( 'logger mock' );
@@ -101,7 +107,9 @@ describe( 'karmaHelpers', () => {
 
         test( 'logs error', async() => {
             const updateError = new Error( 'updateError' );
-            Phrase.update = jest.fn().mockImplementation( () => { throw updateError;} )
+            Phrase.update = jest.fn().mockImplementation( () => {
+                throw updateError;
+            } )
                 .mockName( 'error mock' );
 
             logger.log = jest.fn().mockName( 'logger mock' );
