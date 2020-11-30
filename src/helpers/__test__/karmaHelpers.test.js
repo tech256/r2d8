@@ -1,7 +1,6 @@
 const Phrase = require( '../../../models/phrase' );
 const karmaHelpers = require( '../karmaHelpers' );
 const databaseHelpers = require( '../databaseHelpers' );
-const db = require( '../../../config/database' );
 const logger = require( '../../logger' );
 
 describe( 'karmaHelpers', () => {
