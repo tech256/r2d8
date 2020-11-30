@@ -1,54 +1,38 @@
 const Phrase = require( '../../models/phrase' );
 const logger = require( '../logger' );
-const dbHelpers = require( './databaseHelpers' );
+const karmaHelpers = require ( './karmaHelpers' );
 
-//ADD RECORD
-const addPhrase = async( message, points ) => {
-    try {
-        // TODO: return created object to calling function
-        await Phrase.create( {
-            message: message,
-            points: points,
-        } );
-    } catch( err ) {
-        logger.log( err );
-    }
-};
+
 
 //EDIT RECORD
-const incrementPoint = ( message, points ) => {
-    const newPoints = points + 1;
-    Phrase.update( {
-        points: newPoints
-    }, {
-        where: {
-            message: message
-        },
-        returning: true,
-        plain: true
-    } )
-        .then( ( phrase ) =>{
-            console.log( phrase[1].dataValues );
-            return phrase;
-        } )
-        .catch( ( err ) => console.log( 'error ' + err ) );
-};
+const increment = async( message ) => {
+    const phrase = await karmaHelpers.getPhraseFromDatabase( message );
 
-//Precheck for inc, dec, create - does the phrase exist in our DB?
-const getPhraseFromDatabase = async( message ) => {
-    // console.log( 'in getPhraseFromDatabase' );
-    await dbHelpers.setupDB();
-    try {
-        const phrase = await Phrase.findAll( {
-            where: {
-                message: message
-            }
-        } );
-        // console.log( JSON.stringify( phrase, null, 4 ) );
-        return phrase;
-    } catch ( error ) {
-        logger.log( error );
+    if ( phrase.length > 0 ) {
+        try {
+            const returnedObject = await Phrase.increment( 'points', {
+                where: {
+                    message: message
+                },
+                returning: true,
+                plain: true
+            } );
+            // console.log( 'back from inc: ' + JSON.stringify( returnedObject, null, 2 ) );
+            // console.log( 'keys: ' + Object.keys( returnedObject ) );
+            const dataValues = returnedObject[0][0];
+            return dataValues.message + ': ' + dataValues.points;
+        } catch ( err ) {
+            logger.log( err );
+        }
+
+        // update
+    } else {
+        // add to db
     }
+    
+    // return message + points
+
+    
 };
 
-module.exports = {addPhrase, incrementPoint, getPhraseFromDatabase};
+module.exports = {increment};

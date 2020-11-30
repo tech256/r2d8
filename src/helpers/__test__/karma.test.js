@@ -1,60 +1,70 @@
 const Phrase = require( '../../../models/phrase' );
-const karma = require( '../karma.js' );
+const karma = require( '../karma' );
+const karmaHelpers = require( '../karmaHelpers' );
 const databaseHelpers = require( '../databaseHelpers' );
+const db = require( '../../../config/database' );
 const logger = require( '../../logger' );
 
 describe( 'Karma', () => {
-    describe( 'getPhraseFromDatabase', () => {
+    describe( 'increment', () => {
         beforeEach( async() => {
             databaseHelpers.setupDB = jest.fn();
         } );
-        describe( 'phrase', () => {
-            test( 'exists', async() => {
-                Phrase.findAll = jest.fn().mockResolvedValue( [{}] );
-                const result = await karma.getPhraseFromDatabase( 'this is a test' );
-                expect( result ).toEqual( [{}] );
-            } );
-            test( 'does not exist', async() => {
-                Phrase.findAll = jest.fn().mockResolvedValue( [] );
-                const result = await karma.getPhraseFromDatabase( 'hello' );
-                expect( result ).toEqual( [] );
-            } );
+        test( 'calls getPhraseFromDatabase once', async() => {
+            karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( ['45 Savage'] );
+            Phrase.increment = jest.fn().mockResolvedValue( 'a' );
+            const phrase = 'foobarbaz';
+            await karma.increment( phrase );
+            
+            await expect( karmaHelpers.getPhraseFromDatabase ).toHaveBeenCalledTimes( 1 );
+            await expect( karmaHelpers.getPhraseFromDatabase ).toHaveBeenCalledWith( phrase );
         } );
-        test( 'calls setupDB only once', async() => {
-            Phrase.findAll = jest.fn();
-            await karma.getPhraseFromDatabase( 'foo bar baz' );
-            expect( databaseHelpers.setupDB ).toHaveBeenCalledTimes( 1 );
-        } );
-    } );
-    describe( 'addPhrase', () => {
-        describe( 'calls Phrase.create', () => {
-            beforeEach( async() => {
-                Phrase.create = jest.fn();
-            } );
-            test( 'once', async() => {
-                await karma.addPhrase( 'foobar', 33 );
-                expect( Phrase.create ).toHaveBeenCalledTimes( 1 );
-            } );
-            test( 'with message and points', async() => {
-                await karma.addPhrase( 'foobar', 33 );
+        describe( 'message exists in database', () => {
+            describe( 'Phrase.increment', () => {
+                beforeEach( async() => {
+                    karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( ['not a real return value'] );
+                } );
+                test( 'is called once', async() => {
+                    Phrase.increment = jest.fn().mockResolvedValue( 'a' ).mockName( 'increment mock' );
+    
+                    await karma.increment( 'foo' );
+                    expect( Phrase.increment ).toHaveBeenCalledTimes( 1 );
+    
+                    const foo = {
+                        plain: true,
+                        returning: true,
+                        where: {
+                            message: 'foo'
+                        }
+                    };
+                    expect( Phrase.increment ).toHaveBeenCalledWith( 'points', foo );
+                } );
+                test( 'returns "phrase: pointValue"', async() => {
+                    const annoyingReturnObject = [
+                        [{
+                            message: 'bye bye love',
+                            points: '-5'
+                        }]
+                    ];
+                    Phrase.increment = jest.fn().mockResolvedValue( annoyingReturnObject ).mockName( 'increment mock' );
+    
+                    const returnedString = await karma.increment( 'foo' );
+                    expect( returnedString ).toEqual( 'bye bye love: -5' );
+                } );
 
-                const expectedObject = {
-                    message: 'foobar',
-                    points: 33
-                };
-                expect( Phrase.create ).toHaveBeenCalledWith( expectedObject );
+                test( 'logs error on throw', async() => {
+                    const incrementError = new Error( 'increment' );
+                    Phrase.increment = jest.fn().mockImplementation( () => {
+                        throw incrementError;
+                    } );
+                    
+                    logger.log = jest.fn();
+
+                    await karma.increment( 'foobarbaz' );
+                    expect( logger.log ).toHaveBeenCalledTimes( 1 );
+                    expect( logger.log ).toHaveBeenCalledWith( incrementError );
+                } );
             } );
-        } );
-        test( 'logs error', async() => {
-            const expectedError = Error( 'foobar' );
-            Phrase.create = jest.fn().mockImplementation( () => { throw  expectedError;} )
-                .mockName( 'Phrase.create throws error mock' );
-    
-            logger.log = jest.fn().mockName( 'logger mock' );
-    
-            await karma.addPhrase( 'foobar', 33 );
-            expect( logger.log ).toHaveBeenCalledTimes( 1 );
-            expect( logger.log ).toHaveBeenCalledWith( expectedError );
         } );
     } );
 } );
