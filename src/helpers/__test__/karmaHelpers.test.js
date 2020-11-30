@@ -62,6 +62,11 @@ describe( 'karmaHelpers', () => {
             expect( logger.log ).toHaveBeenCalledTimes( 1 );
             expect( logger.log ).toHaveBeenCalledWith( expectedError );
         } );
+        test( 'returns object from Phrase.create', async() => {
+            Phrase.create = jest.fn().mockResolvedValue( {foo: 'bar'} );
+            const returnValue = await karmaHelpers.addPhrase( 'some message' );
+            expect( returnValue ).toEqual( {foo: 'bar'} );
+        } );
     } );
     describe( 'updatePhrase', () => {
         test( 'calls Phrase.update', async() => {
