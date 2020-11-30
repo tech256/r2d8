@@ -1,6 +1,6 @@
-const Phrase = require( '../../models/phrase' );
-const logger = require( '../logger' );
-const karmaHelpers = require( './karmaHelpers' );
+const Phrase = require( '../models/phrase' );
+const logger = require( './logger' );
+const karmaHelpers = require( './helpers/karmaHelpers' );
 
 
 

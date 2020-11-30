@@ -1,8 +1,8 @@
-const Phrase = require( '../../../models/phrase' );
+const Phrase = require( '../../models/phrase' );
 const karma = require( '../karma' );
-const karmaHelpers = require( '../karmaHelpers' );
-const databaseHelpers = require( '../databaseHelpers' );
-const logger = require( '../../logger' );
+const karmaHelpers = require( '../helpers/karmaHelpers' );
+const databaseHelpers = require( '../helpers/databaseHelpers' );
+const logger = require( '../logger' );
 
 describe( 'Karma', () => {
     beforeEach( async() => {
