@@ -4,7 +4,7 @@ const databaseHelpers = require( '../databaseHelpers' );
 const db = require( '../../../config/database' );
 const logger = require( '../../logger' );
 
-describe.only( 'Karma', () => {
+describe( 'karmaHelpers', () => {
     describe( 'getPhraseFromDatabase', () => {
         beforeEach( async() => {
             databaseHelpers.setupDB = jest.fn();
