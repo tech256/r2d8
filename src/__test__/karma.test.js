@@ -52,16 +52,16 @@ describe( 'Karma', () => {
                 } );
 
                 test( 'logs error on throw', async() => {
-                    const incrementError = new Error( 'increment' );
-                    Phrase.increment = jest.fn().mockImplementation( () => {
-                        throw incrementError;
-                    } );
+                    //simulate Phrase.increment internally throws and catches its error
+                    Phrase.increment = jest.fn().mockResolvedValue( undefined );
                     
-                    logger.log = jest.fn();
+                    logger.log = jest.fn().mockName( 'increment error' );
 
                     await karma.increment( 'foobarbaz' );
                     expect( logger.log ).toHaveBeenCalledTimes( 1 );
-                    expect( logger.log ).toHaveBeenCalledWith( incrementError );
+
+                    const expectedError = new TypeError( 'Cannot read property \'0\' of undefined' );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', expectedError );
                 } );
             } );
         } );
@@ -78,7 +78,12 @@ describe( 'Karma', () => {
                     karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( [] );
                 } );
                 test( 'is called once', async() => {
-                    karmaHelpers.addPhrase = jest.fn();
+                    const returnedMessage = {
+                        message: 'foo bar baz',
+                        points: 33
+                    };
+                    karmaHelpers.addPhrase = jest.fn().mockResolvedValue( returnedMessage );
+                    
                     const message = 'test message';
                     await karma.increment( message );
                     
@@ -86,16 +91,16 @@ describe( 'Karma', () => {
                     expect( karmaHelpers.addPhrase ).toHaveBeenCalledWith( message, 1 );
                 } );
                 test( 'throws error', async() => {
-                    const addError = new Error( 'add error' );
-                    karmaHelpers.addPhrase = jest.fn().mockImplementation( () => {
-                        throw addError;
-                    } );
+                    //simulate karma.addPhrase internally throws and catches its error
+                    karmaHelpers.addPhrase = jest.fn().mockResolvedValue( undefined );
 
                     logger.log = jest.fn();
 
                     await karma.increment( 'any message' );
                     expect( logger.log ).toHaveBeenCalledTimes( 1 );
-                    expect( logger.log ).toHaveBeenCalledWith( addError );
+
+                    const expectedError = new TypeError( 'Cannot read property \'message\' of undefined' );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', expectedError );
                 } );
             } );
         } );
@@ -145,16 +150,16 @@ describe( 'Karma', () => {
                 } );
 
                 test( 'logs error on throw', async() => {
-                    const incrementError = new Error( 'increment' );
-                    Phrase.decrement = jest.fn().mockImplementation( () => {
-                        throw incrementError;
-                    } );
+                    // simulate Phras.decrement internally threw and caught erro
+                    Phrase.decrement = jest.fn().mockResolvedValue( undefined );
                     
                     logger.log = jest.fn();
 
                     await karma.decrement( 'foobarbaz' );
                     expect( logger.log ).toHaveBeenCalledTimes( 1 );
-                    expect( logger.log ).toHaveBeenCalledWith( incrementError );
+
+                    const expectedError = TypeError( 'Cannot read property \'0\' of undefined' );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error',  expectedError );
                 } );
             } );
         } );
@@ -179,16 +184,15 @@ describe( 'Karma', () => {
                     expect( karmaHelpers.addPhrase ).toHaveBeenCalledWith( message, -1 );
                 } );
                 test( 'throws error', async() => {
-                    const addError = new Error( 'add error' );
-                    karmaHelpers.addPhrase = jest.fn().mockImplementation( () => {
-                        throw addError;
-                    } );
-
+                    // simulate karmaHelpers.addPhrase throwing and catching an error internally
+                    karmaHelpers.addPhrase = jest.fn().mockResolvedValue( undefined );
                     logger.log = jest.fn();
 
                     await karma.decrement( 'any message' );
                     expect( logger.log ).toHaveBeenCalledTimes( 1 );
-                    expect( logger.log ).toHaveBeenCalledWith( addError );
+
+                    const expectedError = TypeError( 'Cannot read property \'message\' of undefined' );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', expectedError );
                 } );
             } );
         } );

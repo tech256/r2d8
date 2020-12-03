@@ -8,10 +8,10 @@ const setupDB = async() => {
         try {
             await db.sync();
         } catch ( err ) {
-            logger.log( err );
+            logger.log( 'error', err );
         }
     } catch ( err ) {
-        logger.log( err );
+        logger.log( 'error', err );
     }
 };
 

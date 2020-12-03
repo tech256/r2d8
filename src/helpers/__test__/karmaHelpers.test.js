@@ -25,6 +25,16 @@ describe( 'karmaHelpers', () => {
             await karmaHelpers.getPhraseFromDatabase( 'foo bar baz' );
             expect( databaseHelpers.setupDB ).toHaveBeenCalledTimes( 1 );
         } );
+        test( 'calls logger on error', async() => {
+            const getPhraseError = new Error( 'getPhraseFromDatabase Error' );
+            Phrase.findAll = jest.fn().mockImplementation( () => { throw getPhraseError;} );
+
+            logger.log = jest.fn().mockName( 'logger mock' );
+
+            await karmaHelpers.getPhraseFromDatabase( 'fa la la' );
+            expect( logger.log ).toHaveBeenCalledTimes( 1 );
+            expect( logger.log ).toHaveBeenCalledWith( 'error', getPhraseError );
+        } );
     } );
     describe( 'addPhrase', () => {
         describe( 'calls Phrase.create', () => {
@@ -60,7 +70,7 @@ describe( 'karmaHelpers', () => {
     
             await karmaHelpers.addPhrase( 'foobar', 33 );
             expect( logger.log ).toHaveBeenCalledTimes( 1 );
-            expect( logger.log ).toHaveBeenCalledWith( expectedError );
+            expect( logger.log ).toHaveBeenCalledWith( 'error', expectedError );
         } );
         test( 'returns object from Phrase.create', async() => {
             Phrase.create = jest.fn().mockResolvedValue( {foo: 'bar'} );
@@ -121,7 +131,7 @@ describe( 'karmaHelpers', () => {
 
             await karmaHelpers.updatePhrase( 'foobar', 666 );
             expect( logger.log ).toHaveBeenCalledTimes( 1 );
-            expect( logger.log ).toHaveBeenCalledWith( updateError );
+            expect( logger.log ).toHaveBeenCalledWith( 'error', updateError );
         } );
     } );
 } );

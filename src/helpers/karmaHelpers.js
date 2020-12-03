@@ -15,7 +15,7 @@ const addPhrase = async( message, points ) => {
         } );
         return phrase;
     } catch ( err ) {
-        logger.log( err );
+        logger.log( 'error',err );
     }
 };
 
@@ -32,7 +32,7 @@ const updatePhrase = async( message, points ) => {
         } );
         return phrase[1].dataValues;
     } catch ( err ) {
-        logger.log( err );
+        logger.log( 'error', err );
     }
 };
 
@@ -48,7 +48,7 @@ const getPhraseFromDatabase = async( message ) => {
         // console.log( JSON.stringify( phrase, null, 4 ) );
         return phrase;
     } catch ( error ) {
-        logger.log( error );
+        logger.log( 'error', error );
     }
 };
 

@@ -31,7 +31,7 @@ describe( 'databaseHelpers', () => {
                 
                 await databaseHelpers.setupDB();
                 expect( logger.log ).toHaveBeenCalledTimes( 1 );
-                expect( logger.log ).toHaveBeenCalledWith( authenticateError );
+                expect( logger.log ).toHaveBeenCalledWith( 'error', authenticateError );
             } );
             it( 'db.sync throws Error', async() => {
                 const syncError = new Error( 'sync error' );
@@ -41,7 +41,7 @@ describe( 'databaseHelpers', () => {
                 
                 await databaseHelpers.setupDB();
                 expect( logger.log ).toHaveBeenCalledTimes( 1 );
-                expect( logger.log ).toHaveBeenCalledWith( syncError );
+                expect( logger.log ).toHaveBeenCalledWith( 'error', syncError );
             } );
         } );
     } );

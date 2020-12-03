@@ -20,14 +20,14 @@ const increment = async( message ) => {
             const dataValues = returnedObject[0][0];
             return dataValues.message + ': ' + dataValues.points;
         } catch ( err ) {
-            logger.log( err );
+            logger.log( 'error', err );
         }
     } else {
         try {
             const newPhrase = await karmaHelpers.addPhrase( message, 1 );
             return newPhrase.message + ': ' + newPhrase.points;
         } catch ( err ) {
-            logger.log( err );
+            logger.log( 'error', err );
         }
     }
 };
@@ -48,14 +48,14 @@ const decrement = async( message ) => {
             const dataValues = returnedObject[0][0];
             return dataValues.message + ': ' + dataValues.points;
         } catch ( err ) {
-            logger.log( err );
+            logger.log( 'error', err );
         }
     } else {
         try {
             const newPhrase = await karmaHelpers.addPhrase( message, -1 );
             return newPhrase.message + ': ' + newPhrase.points;
         } catch ( err ) {
-            logger.log( err );
+            logger.log( 'error', err );
         }
     }
 };
