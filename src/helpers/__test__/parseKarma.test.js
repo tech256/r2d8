@@ -8,8 +8,10 @@ describe( 'parseKarma', () => {
         event.text = '';
     } );
     describe( 'increment', () => {
+        beforeEach( async() => {
+            karma.increment = jest.fn().mockResolvedValue( expectedString );
+        } );
         const expectedString = 'foo: 1';
-        karma.increment = jest.fn().mockResolvedValue( expectedString );
         test( 'calls karma.increment and returns its result ', async() => {
             event.text = 'foo++';
             
@@ -17,12 +19,29 @@ describe( 'parseKarma', () => {
             expect( karma.increment ).toHaveBeenCalledTimes( 1 );
             expect( result ).toEqual( expectedString );
         } );
+        test( 'in middle of string ', async() => {
+            event.text = 'this is the foo++ song that never ends';
+          
+            const result = await parseKarma.handleKarma( event );
+            expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+            expect( result ).toEqual( expectedString );
+        } );
     } );
     describe( 'decrement', () => {
         const expectedString = 'foo: -1';
-        karma.decrement = jest.fn().mockResolvedValue( expectedString );
+
+        beforeEach( () => {
+            karma.decrement = jest.fn().mockResolvedValue( expectedString );
+        } );
         test( 'calls karma.decrement and returns its result ', async() => {
             event.text = 'foo--';
+            
+            const result = await parseKarma.handleKarma( event );
+            expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
+            expect( result ).toEqual( expectedString );
+        } );
+        test( 'in middle of string ', async() => {
+            event.text = 'this is the foo-- that never ends';
             
             const result = await parseKarma.handleKarma( event );
             expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
