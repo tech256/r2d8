@@ -1,4 +1,6 @@
 const karma = require( '../karma' );
+const { isEmpty } = require( './helpers' );
+const helpers = require( './helpers' );
 
 const handleKarma = async( event ) => {
     const message = event.text;
@@ -34,4 +36,21 @@ const handleKarma = async( event ) => {
     return response;
 };
 
-module.exports = {handleKarma};
+const extractAsNeeded = ( phrase ) => {
+    const singleQuoteExtractionResult = helpers.extractFromSingleQuotes( phrase );
+    if ( !( isEmpty( singleQuoteExtractionResult ) ) ) {
+        return singleQuoteExtractionResult;
+    }
+
+    const doubleQuoteExtractionResult = helpers.extractFromDoubleQuotes( phrase );
+    if( !( isEmpty( doubleQuoteExtractionResult ) ) ) {
+        return doubleQuoteExtractionResult;
+    }
+
+    const parenthesesExtractionResult = helpers.extractFromParentheses( phrase );
+    if( !( isEmpty( parenthesesExtractionResult ) ) ) {
+        return parenthesesExtractionResult;
+    }
+};
+
+module.exports = {handleKarma, extractAsNeeded};

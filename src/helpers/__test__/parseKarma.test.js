@@ -29,4 +29,24 @@ describe( 'parseKarma', () => {
             expect( result ).toEqual( expectedString );
         } );
     } );
+
+    describe( 'extractAsNeeded', () => {
+        test( 'phrase surrounded by single quotes', () => {
+            const phrase = '\'fooey\'';
+            const returnedPhrase = parseKarma.extractAsNeeded( phrase );
+            expect( returnedPhrase ).toEqual( 'fooey' );
+        } );
+
+        test( 'phrase surrounded by double quotes', () => {
+            const phrase = '"fooby"';
+            const returnedPhrase = parseKarma.extractAsNeeded( phrase );
+            expect( returnedPhrase ).toEqual( 'fooby' );
+        } );
+
+        test( 'phrase surronded by parentheses', () => {
+            const phrase = '(phooey)';
+            const returnedPhrase = parseKarma.extractAsNeeded( phrase );
+            expect( returnedPhrase ).toEqual( 'phooey' );
+        } );
+    } );
 } );
