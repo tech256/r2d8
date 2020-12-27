@@ -144,5 +144,11 @@ describe( 'parseKarma', () => {
             const returnedPhrase = parseKarma.extractAsNeeded( phrase );
             expect( returnedPhrase ).toEqual( 'phooey' );
         } );
+
+        test( 'nothing surrounding phrase', () => {
+            const phrase = 'this is the song that never ends';
+            const returnedPhrase = parseKarma.extractAsNeeded( phrase );
+            expect( returnedPhrase ).toEqual( phrase );
+        } );
     } );
 } );
