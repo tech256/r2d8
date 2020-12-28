@@ -151,4 +151,32 @@ describe( 'parseKarma', () => {
             expect( returnedPhrase ).toEqual( phrase );
         } );
     } );
+
+    describe( 'handlePointCheck', () => {
+        describe( 'karma.pointsForMessage returns', () => {
+            beforeEach( async() => {
+                karma.pointsForMessage = jest.fn();
+                karma.pointsForMessage.mockRestore();
+            } );
+            test( 'a string', async() => {
+                const expectedString = 'abc 123';
+                karma.pointsForMessage = jest.fn().mockResolvedValue( expectedString );
+                
+                event.text = '!karma this is the song that never ends';
+
+                const result = await parseKarma.handleKarma( event );
+                expect( result ).toEqual( expectedString );
+            } );
+
+            test( 'empty string', async() => {
+                karma.pointsForMessage = jest.fn().mockResolvedValue( '' );
+                
+                event.text = '!karma this is the song that never ends';
+                
+                const result = await parseKarma.handleKarma( event );
+                expect( result ).toEqual( undefined );
+            } );
+
+        } );
+    } );
 } );

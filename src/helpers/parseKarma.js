@@ -7,7 +7,6 @@ const handleKarma = async( event ) => {
     
     const topKarma = new RegExp( '^!karma --top$|^!karma -t$' );
     const bottomKarma = new RegExp( '^!karma --bottom$|^!karma -b$' );
-    const points = new RegExp( '^!karma .+$' );
   
     // !karma @userName/"some phrase"/'some phrase'/(some phrase)
     // !karma --top || !karma -t
@@ -22,6 +21,11 @@ const handleKarma = async( event ) => {
     }
     
     response = await handleDecrement( message );
+    if ( !( isEmpty( response ) ) ) {
+        return response;
+    }
+
+    response = await handlePointCheck( message );
     if ( !( isEmpty( response ) ) ) {
         return response;
     }
@@ -81,6 +85,24 @@ const handleDecrement = async( message ) => {
         return response;
     }
 };
+
+const handlePointCheck = async( message ) => {
+    const pointCheck = new RegExp( '^!karma .+$' );
+    const matched = message.match( pointCheck );
+
+    if ( !( isEmpty( matched ) ) ) {
+        // if we match, then we get back an array of matches. There should only be one match based on the regex
+        const phrase = matched[0];
+
+        // strip off '!karma '
+        const noBangKarmaSpaceString = phrase.substring( 7, phrase.length );
+        const response = await karma.pointsForMessage( noBangKarmaSpaceString );
+
+        // console.log( 'foo: ' + JSON.stringify( response, null, 2 ) );
+        return response;
+    }
+};
+
 const extractAsNeeded = ( phrase ) => {
     const singleQuoteExtractionResult = helpers.extractFromSingleQuotes( phrase );
     if ( !( isEmpty( singleQuoteExtractionResult ) ) ) {
