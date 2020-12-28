@@ -197,4 +197,56 @@ describe( 'Karma', () => {
             } );
         } );
     } );
+
+    describe( 'pointsForMessage', () => {
+        describe( 'getPhraseFromDatabase', () => {
+            describe( 'throws error', () => {
+                test( 'and logs to logger', async() => {
+                    logger.log = jest.fn().mockName( 'logger mock' );
+
+                    const mockError = Error( 'foo bar baz' );
+                    karmaHelpers.getPhraseFromDatabase = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    await karma.pointsForMessage( 'one two three' );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', mockError );
+                } );
+
+                test( 'and returns undefined', async() => {
+                    const mockError = Error( 'foo bar baz' );
+                    karmaHelpers.getPhraseFromDatabase = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    const result = await karma.pointsForMessage( 'ichi ni san' );
+                    expect( result ).toEqual( undefined );
+                } );
+
+            } );
+
+            describe( 'returns', () => {
+                test( 'well-formed object', async() => {
+                    const mockPhrase = {
+                        message: 'round the rugged rock, the ragged rascle ran',
+                        points: 33
+                    };
+                    const mockResponse = [ mockPhrase ];
+                    karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( mockResponse );
+    
+                    const result = await karma.pointsForMessage( 'foo bar baz' );
+                    expect( result ).toEqual( mockPhrase.message + ': '  + mockPhrase.points );
+                } );
+                
+                test( 'empty array', async() => {
+                    const mockResponse = [];
+                    karmaHelpers.getPhraseFromDatabase = jest.fn().mockResolvedValue( mockResponse );
+        
+                    const message = 'ha ba cha';
+                    const result = await karma.pointsForMessage( message );
+                    expect( result ).toEqual( message + ': 0' );
+                } );
+            } );
+        } );
+    } );
 } );

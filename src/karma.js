@@ -60,4 +60,17 @@ const decrement = async( message ) => {
     }
 };
 
-module.exports = {increment, decrement};
+const pointsForMessage = async( message ) => {
+    try {
+        const phrase = await karmaHelpers.getPhraseFromDatabase( message );
+    
+        if ( phrase.length > 0 ) {
+            return phrase[0].message + ': ' + phrase[0].points;
+        }
+        return message + ': 0';
+    } catch( err ) {
+        logger.log( 'error', err );
+    }
+};
+
+module.exports = {increment, decrement, pointsForMessage};
