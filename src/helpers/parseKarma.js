@@ -96,10 +96,8 @@ const handlePointCheck = async( message ) => {
 
         // strip off '!karma '
         const noBangKarmaSpaceString = phrase.substring( 7, phrase.length );
-        const response = await karma.pointsForMessage( noBangKarmaSpaceString );
-
-        // console.log( 'foo: ' + JSON.stringify( response, null, 2 ) );
-        return response;
+        const extractedString = extractAsNeeded( noBangKarmaSpaceString );
+        return await karma.pointsForMessage( extractedString );
     }
 };
 

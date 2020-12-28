@@ -178,5 +178,31 @@ describe( 'parseKarma', () => {
             } );
 
         } );
+
+        describe( 'extracts from', () => {
+            beforeEach( async() => {
+                karma.pointsForMessage = jest.fn();
+            } );
+            test( 'single quotes', async() => {
+                event.text = '!karma \'fooey bary bazy\'';
+                await parseKarma.handleKarma( event );
+                expect( karma.pointsForMessage ).toHaveBeenCalledTimes( 1 );
+                expect( karma.pointsForMessage ).toHaveBeenCalledWith( 'fooey bary bazy' );
+            } );
+
+            test( 'double quotes', async() => {
+                event.text = '!karma "larry curly moe"';
+                await parseKarma.handleKarma( event );
+                expect( karma.pointsForMessage ).toHaveBeenCalledTimes( 1 );
+                expect( karma.pointsForMessage ).toHaveBeenCalledWith( 'larry curly moe' );
+            } );
+
+            test( 'parentheses', async() => {
+                event.text = '!karma (Grandpa was a carpenter)';
+                await parseKarma.handleKarma( event );
+                expect( karma.pointsForMessage ).toHaveBeenCalledTimes( 1 );
+                expect( karma.pointsForMessage ).toHaveBeenCalledWith( 'Grandpa was a carpenter' );
+            } );
+        } );
     } );
 } );
