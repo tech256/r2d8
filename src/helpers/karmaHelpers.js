@@ -73,11 +73,8 @@ const getPhrases = async( maxNumberOfResults, isAscending ) => {
             returning: true,
             plain: true
         } );
-        console.log( JSON.stringify( phrases, null, 2 ) );
         
     } catch( err ) {
-        console.log( 'IN CATCH' );
-        console.log( 'err: ' + err );
         logger.log( 'error', err );
     }
 
