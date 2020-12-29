@@ -74,7 +74,6 @@ const pointsForMessage = async( message ) => {
 };
 
 const formatPhrase = ( phrase ) => {
-    console.log( 'phrase:\n' + JSON.stringify( phrase, null, 2 ) + '\n\n' );
     return phrase.message + ': ' + phrase.points;
 };
 
