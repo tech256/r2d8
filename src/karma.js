@@ -73,4 +73,7 @@ const pointsForMessage = async( message ) => {
     }
 };
 
-module.exports = {increment, decrement, pointsForMessage};
+const formatPhrase = ( phrase ) => {
+    console.log( 'phrase:\n' + JSON.stringify( phrase, null, 2 ) + '\n\n' );
+    return phrase.message + ': ' + phrase.points;
+};
