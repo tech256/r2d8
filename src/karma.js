@@ -77,3 +77,13 @@ const formatPhrase = ( phrase ) => {
     console.log( 'phrase:\n' + JSON.stringify( phrase, null, 2 ) + '\n\n' );
     return phrase.message + ': ' + phrase.points;
 };
+
+const extremesOutput = ( phrases ) => {
+    if( phrases.length === 0 ) {
+        return 'no phrases in database';
+    } else if( phrases.length > 0 ) {
+        const formattedPhrases = phrases.map( formatPhrase );
+        return formattedPhrases.join( '\n' );
+    }
+};
+
