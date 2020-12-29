@@ -87,3 +87,17 @@ const extremesOutput = ( phrases ) => {
     }
 };
 
+const topPhrases = async() => {
+    let phrases = [];
+    
+    try {
+        phrases = await karmaHelpers.getTopPhrases();
+    } catch( err ) {
+        logger.log( 'error', err );
+        return;
+    }
+
+    return extremesOutput( phrases );
+};
+
+module.exports = {increment, decrement, pointsForMessage, topPhrases};

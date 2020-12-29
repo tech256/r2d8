@@ -249,4 +249,60 @@ describe( 'Karma', () => {
             } );
         } );
     } );
+
+    describe( 'topPhrases', () => {
+        describe( 'karmaHelpers.getTopPhrases()', () => {
+            describe( 'throws error', () => {
+                test( 'logs error', async() => {
+                    const mockError = Error( 'some error' );
+                    
+                    karmaHelpers.getTopPhrases = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    logger.log = jest.fn();
+
+                    await karma.topPhrases();
+                    expect( logger.log ).toHaveBeenCalledTimes( 1 );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', mockError );
+                } );
+
+                test( 'returns undefined', async() => {
+                    const mockError = Error( 'some error' );
+                    
+                    karmaHelpers.getTopPhrases = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    const result = await karma.topPhrases();
+                    expect( result ).toEqual( undefined );
+                } );
+            } );
+
+            describe( 'returns', () => {
+                test( 'empty array', async() => {
+                    karmaHelpers.getTopPhrases = jest.fn().mockResolvedValue( [] );
+                    const result = await karma.topPhrases();
+                    expect( result ).toEqual( 'no phrases in database' );
+                } );
+
+                test( 'non-empty array', async() => {
+                    const phrases = [ {
+                        message: 'abc',
+                        points: 123
+                    },
+                    {
+                        message: 'hakunamatatta',
+                        points: 33
+                    }
+                    ];
+
+                    karmaHelpers.getTopPhrases = jest.fn().mockResolvedValue( phrases );
+                    const result = await karma.topPhrases();
+                    expect( result ).toEqual( 'abc: 123\nhakunamatatta: 33' );
+                } );
+
+            } );
+        } );
+    } );
 } );
