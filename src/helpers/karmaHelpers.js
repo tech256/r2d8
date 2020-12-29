@@ -52,4 +52,32 @@ const getPhraseFromDatabase = async( message ) => {
     }
 };
 
-module.exports = {addPhrase, getPhraseFromDatabase, updatePhrase};
+const getTopPhrases = async( maxNumberOfResults=5 ) => {
+    return await getPhrases( maxNumberOfResults, true );
+};
+
+const getPhrases = async( maxNumberOfResults, isAscending ) => { 
+    await dbHelpers.setupDB();
+    
+    let phrases = [];
+    try {
+        phrases = await Phrase.findAll( {
+            limit: maxNumberOfResults,
+            order: [isAscending ? ['points', 'DESC'] : ['points', 'ASC']],
+        },
+        {
+            returning: true,
+            plain: true
+        } );
+        console.log( JSON.stringify( phrases, null, 2 ) );
+        
+    } catch( err ) {
+        console.log( 'IN CATCH' );
+        console.log( 'err: ' + err );
+        logger.log( 'error', err );
+    }
+
+    return phrases;
+};
+
+module.exports = {addPhrase, getPhraseFromDatabase, updatePhrase, getTopPhrases};

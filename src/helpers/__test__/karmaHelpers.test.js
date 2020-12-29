@@ -134,4 +134,72 @@ describe( 'karmaHelpers', () => {
             expect( logger.log ).toHaveBeenCalledWith( 'error', updateError );
         } );
     } );
+
+    describe( 'getTopPhrases', () => {
+        describe( 'Phrase.findAll', () => {
+            describe( 'returns', () => {
+                test( 'elements', async() => {
+                    const mockPhrases = [{
+                        message: 'this is the song that never ends',
+                        points: 33
+                    },
+                    {
+                        message: 'round the rugged rock',
+                        points: 666
+                    }
+                    ];
+                    
+                    Phrase.findAll = jest.fn().mockResolvedValue( mockPhrases );
+                    
+                    const result = await karmaHelpers.getTopPhrases();
+                    expect( result ).toEqual( mockPhrases );
+                } );
+        
+                test( 'NO elements', async() => {
+                    Phrase.findAll = jest.fn().mockResolvedValue( [] );
+                    
+                    const result = await karmaHelpers.getTopPhrases();
+                    expect( result ).toEqual( [] );
+                } );
+            } );
+
+            describe( 'throws error', () => {
+                test( 'logs error', async() => {
+                    const mockError = Error( 'This is a test of the emergency broadcast system' );
+    
+                    Phrase.findAll = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    logger.log = jest.fn();
+
+                    await karmaHelpers.getTopPhrases();
+                    expect( logger.log ).toHaveBeenCalledTimes( 1 );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', mockError );
+                } );
+
+            } );
+
+            describe( 'is called with', () => {
+                test( 'default points, DESC order returning true, plain true', async() => {
+                    Phrase.findAll = jest.fn();
+
+                    const firstObject = {
+                        limit: 5,
+                        order: [['points', 'DESC']]
+                    };
+
+                    const secondObject = {
+                        returning: true,
+                        plain: true
+                    };
+
+                    await karmaHelpers.getTopPhrases();
+                    expect( Phrase.findAll ).toHaveBeenCalledTimes( 1 );
+                    expect( Phrase.findAll ).toHaveBeenCalledWith( firstObject, secondObject );
+                } );
+            } );
+        } );
+    } );
+
 } );
