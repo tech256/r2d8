@@ -99,4 +99,17 @@ const topPhrases = async() => {
     return extremesOutput( phrases );
 };
 
-module.exports = {increment, decrement, pointsForMessage, topPhrases};
+const bottomPhrases = async() => {
+    let phrases = [];
+    
+    try {
+        phrases = await karmaHelpers.getBottomPhrases();
+    } catch( err ) {
+        logger.log( 'error', err );
+        return;
+    }
+
+    return extremesOutput( phrases );
+};
+
+module.exports = {increment, decrement, pointsForMessage, topPhrases, bottomPhrases};

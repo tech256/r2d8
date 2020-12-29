@@ -305,4 +305,60 @@ describe( 'Karma', () => {
             } );
         } );
     } );
+
+    describe( 'bottomPhrases', () => {
+        describe( 'karmaHelpers.getBottomPhrases()', () => {
+            describe( 'throws error', () => {
+                test( 'logs error', async() => {
+                    const mockError = Error( 'some error' );
+                    
+                    karmaHelpers.getBottomPhrases = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    logger.log = jest.fn();
+
+                    await karma.bottomPhrases();
+                    expect( logger.log ).toHaveBeenCalledTimes( 1 );
+                    expect( logger.log ).toHaveBeenCalledWith( 'error', mockError );
+                } );
+
+                test( 'returns undefined', async() => {
+                    const mockError = Error( 'some error' );
+                    
+                    karmaHelpers.getBottomPhrases = jest.fn().mockImplementation( () => {
+                        throw mockError;
+                    } );
+
+                    const result = await karma.bottomPhrases();
+                    expect( result ).toEqual( undefined );
+                } );
+            } );
+
+            describe( 'returns', () => {
+                test( 'empty array', async() => {
+                    karmaHelpers.getBottomPhrases = jest.fn().mockResolvedValue( [] );
+                    const result = await karma.bottomPhrases();
+                    expect( result ).toEqual( 'no phrases in database' );
+                } );
+
+                test( 'non-empty array', async() => {
+                    const phrases = [ {
+                        message: 'abc',
+                        points: 123
+                    },
+                    {
+                        message: 'hakunamatatta',
+                        points: 33
+                    }
+                    ];
+
+                    karmaHelpers.getBottomPhrases = jest.fn().mockResolvedValue( phrases );
+                    const result = await karma.bottomPhrases();
+                    expect( result ).toEqual( 'abc: 123\nhakunamatatta: 33' );
+                } );
+
+            } );
+        } );
+    } );
 } );
