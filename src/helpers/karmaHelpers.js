@@ -56,6 +56,10 @@ const getTopPhrases = async( maxNumberOfResults=5 ) => {
     return await getPhrases( maxNumberOfResults, true );
 };
 
+const getBottomPhrases = async( maxNumberOfResults=5 ) => {
+    return await getPhrases( maxNumberOfResults, false );
+};
+
 const getPhrases = async( maxNumberOfResults, isAscending ) => { 
     await dbHelpers.setupDB();
     
@@ -80,4 +84,4 @@ const getPhrases = async( maxNumberOfResults, isAscending ) => {
     return phrases;
 };
 
-module.exports = {addPhrase, getPhraseFromDatabase, updatePhrase, getTopPhrases};
+module.exports = {addPhrase, getPhraseFromDatabase, updatePhrase, getTopPhrases, getBottomPhrases};
