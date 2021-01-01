@@ -1,6 +1,5 @@
 const constants = require( './constants.js' );
 const helpers = require( '../helpers/helpers' );
-const logger = require( '../logger' );
 
 const messageIsFromABot = function( event ) {
     if ( event.type === 'message' && ( event.subtype === 'bot_message' ||

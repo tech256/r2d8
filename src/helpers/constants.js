@@ -10,4 +10,13 @@ One thing you’ll want to do is configure your notification settings. Otherwise
 
 If you have any questions, reach out to our moderators (listed on tech256.com). We’re happy to help. Also, please review our Code of Conduct (https://github.com/tech256/CoC). Our goal is to support an open, inclusive North Alabama tech community — please help us make Tech256 a great place for everyone.`;
 
-module.exports = {USE_HERE_INSTEAD, WELCOME_MESSAGE};
+
+const KARMA_HELP_MENU = '`karma --help` or `karma -h` returns this menu\n'
++ 'Ending a message with `++` will add one karma point to a phrase\n'
++ 'Ending a message with `--` will subtract one karma point from a phrase\n'
++ '`!karma phrase` returns number of points for the given phrase. '
++ 'Phrase may be enclosed in single or double quotes or parentheses\n'
++ '`!karma --top` or `!karma -t` shows the top 5 phrases sorted by their karma points\n'
++ '`!karma --bottom` or `!karma -b` shows the bottom 5 phrases sorted by their karma points\n';
+
+module.exports = {USE_HERE_INSTEAD, WELCOME_MESSAGE, KARMA_HELP_MENU};
