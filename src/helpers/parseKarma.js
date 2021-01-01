@@ -5,13 +5,16 @@ const helpers = require( './helpers' );
 const handleKarma = async( event ) => {
     const message = event.text;
     
-    const bottomKarma = new RegExp( '^!karma --bottom$|^!karma -b$' );
-  
     let response = '';
   
     // handleTop and handleBottom have to come before handleDecrement
     // because --top and --bottom will otherwise trigger a decrement operation
     response = await handleTop( message );
+    if ( !( isEmpty( response ) ) ) {
+        return response;
+    }
+
+    response = await handleBottom( message );
     if ( !( isEmpty( response ) ) ) {
         return response;
     }
@@ -108,6 +111,15 @@ const handleTop = async( message ) => {
 
     if ( !( isEmpty( matched ) ) ) {
         return await karma.topPhrases();
+    }
+};
+
+const handleBottom = async( message ) => {
+    const bottomKarma = new RegExp( '^!karma --bottom$|^!karma -b$' );
+    const matched = message.match( ( bottomKarma ) );
+
+    if ( !( isEmpty( matched ) ) ) {
+        return await karma.bottomPhrases();
     }
 };
 

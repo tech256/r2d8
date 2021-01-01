@@ -225,4 +225,24 @@ describe( 'parseKarma', () => {
             } );
         } );
     } );
+
+    describe( 'bottom', () => {
+        describe( 'triggered by', () => {
+            test( '--bottom', async() => {
+                karma.bottomPhrases = jest.fn().mockResolvedValue( 'returned result' );
+                event.text = '!karma --bottom';
+
+                await parseKarma.handleKarma( event );
+                expect( karma.bottomPhrases ).toHaveBeenCalledTimes( 1 );
+            } );
+
+            test( '-b', async() => {
+                karma.bottomPhrases = jest.fn().mockResolvedValue( 'returned result' );
+                event.text = '!karma -b';
+
+                await parseKarma.handleKarma( event );
+                expect( karma.bottomPhrases ).toHaveBeenCalledTimes( 1 );
+            } );
+        } );
+    } );
 } );
