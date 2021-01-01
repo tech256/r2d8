@@ -110,7 +110,7 @@ const handleTop = async( message ) => {
     const matched = message.match( ( topKarma ) );
 
     if ( !( isEmpty( matched ) ) ) {
-        return '*top karma*\n' + await karma.topPhrases();
+        return '*top karma*:\n' + await karma.topPhrases();
     }
 };
 

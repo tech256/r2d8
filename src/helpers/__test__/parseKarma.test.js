@@ -224,6 +224,14 @@ describe( 'parseKarma', () => {
                 expect( karma.topPhrases ).toHaveBeenCalledTimes( 1 );
             } );
         } );
+
+        test( 'has bold header', async() => {
+            karma.topPhrases = jest.fn().mockResolvedValue( 'returned result' );
+            event.text = '!karma --top';
+
+            const result = await parseKarma.handleKarma( event );
+            expect( result ).toEqual( '*top karma*:\nreturned result' );
+        } );
     } );
 
     describe( 'bottom', () => {
@@ -243,6 +251,14 @@ describe( 'parseKarma', () => {
                 await parseKarma.handleKarma( event );
                 expect( karma.bottomPhrases ).toHaveBeenCalledTimes( 1 );
             } );
+        } );
+
+        test( 'has bold header', async() => {
+            karma.bottomPhrases = jest.fn().mockResolvedValue( 'returned result' );
+            event.text = '!karma --bottom';
+
+            const result = await parseKarma.handleKarma( event );
+            expect( result ).toEqual( '*bottom karma*:\nreturned result' );
         } );
     } );
 } );
