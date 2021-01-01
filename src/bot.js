@@ -2,6 +2,8 @@ require( 'dotenv' ).config();
 const SlackBot = require( 'slackbots' );
 const logger = require( './logger' );
 const messageHelper = require( './helpers/messageHelper' );
+const helpers = require( './helpers/helpers' );
+const parseKarma = require( './helpers/parseKarma' );
 
 // declare the bot variable so we can use it later
 let bot;
@@ -25,7 +27,7 @@ const startBot = () => {
         // For tech256, the bot's name is "bot", but this code should otherwise be agnostic and shouldn't care about the string "bot"
         bot.getUserId( `${bot.name}` ).then( ( uid ) => {
             process.env.BOT_ID = uid;
-            logger.log( 'debug', `BOT_ID = ${uid}`);
+            logger.log( 'debug', `BOT_ID = ${uid}` );
         } );
     } );
 
@@ -49,7 +51,7 @@ const startBot = () => {
     bot.on( 'error', ( error ) => logger.log( 'error', error ) );
 
     // message handler
-    bot.on( 'message', ( event ) => {
+    bot.on( 'message', async( event ) => {
         if ( event.type !== 'message' ) {
             return;
         }
@@ -59,11 +61,16 @@ const startBot = () => {
             return;
         }
 
-        // Parse the message to see if the user used a commmand we support
-        const response = messageHelper.getMessageResponse( event );
+        let response = null;
+        response = await parseKarma.handleKarma( event );
+
+        if( helpers.isEmpty( response ) ) {
+            // Parse the message to see if the user used a commmand we support
+            response = messageHelper.getMessageResponse( event );
+        }
 
         // Only log when the bot actually has something to say
-        if ( response !== '' ) {
+        if ( !helpers.isEmpty( response )  ) {
             logger.log( 'debug', `${process.env.ROBOT_NAME} says: ${response}` );
 
             // let the bot speak man!

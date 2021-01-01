@@ -25,4 +25,23 @@ describe( 'Helpers', () => {
             } );
         } );
     } );
+    describe( 'strippers', () => {
+        test( 'surrounded by single quotes', () => {
+            const foo = '\'foo\'';
+            const returned = helpers.extractFromSingleQuotes( foo );
+            expect( returned ).toEqual( 'foo' );
+        } );
+
+        test( 'surrounded by double quotes', () => {
+            const foo = '"foo"';
+            const returned = helpers.extractFromDoubleQuotes( foo );
+            expect( returned ).toEqual( 'foo' );
+        } );
+
+        test( 'surrounded by parentheses', () => {
+            const foo = '(foo)';
+            const returned = helpers.extractFromParentheses( foo );
+            expect( returned ).toEqual( 'foo' );
+        } );
+    } );
 } );

@@ -1,7 +1,6 @@
 const messageHelper = require( '../messageHelper' );
 const constants = require( '../constants' );
 const helpers = require( '../helpers' );
-const logger = require( '../../logger' );
 
 describe( 'messageHelper', () => {
     describe( 'messageIsFromABot', () => {
