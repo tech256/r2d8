@@ -1,5 +1,6 @@
 const parseKarma = require( '../parseKarma' );
 const karma = require( '../../karma' );
+const { KARMA_HELP_MENU } = require( '../constants' );
 
 describe( 'parseKarma', () => {
     let event = {};
@@ -259,6 +260,24 @@ describe( 'parseKarma', () => {
 
             const result = await parseKarma.handleKarma( event );
             expect( result ).toEqual( '*bottom karma*:\nreturned result' );
+        } );
+    } );
+
+    describe( 'help menu', () => {
+        describe( 'triggered by', () => {
+            test( '--help', async() => {
+                event.text = '!karma --help';
+
+                const result = await parseKarma.handleKarma( event );
+                expect( result ).toEqual( KARMA_HELP_MENU );
+            } );
+
+            test( '-h', async() => {
+                event.text = '!karma -h';
+
+                const result = await parseKarma.handleKarma( event );
+                expect( result ).toEqual( KARMA_HELP_MENU );
+            } );
         } );
     } );
 } );

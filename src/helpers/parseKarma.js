@@ -1,4 +1,5 @@
 const karma = require( '../karma' );
+const { KARMA_HELP_MENU } = require( './constants' );
 const { isEmpty } = require( './helpers' );
 const helpers = require( './helpers' );
 
@@ -15,6 +16,11 @@ const handleKarma = async( event ) => {
     }
 
     response = await handleBottom( message );
+    if ( !( isEmpty( response ) ) ) {
+        return response;
+    }
+
+    response = handleHelpMenu( message );
     if ( !( isEmpty( response ) ) ) {
         return response;
     }
@@ -120,6 +126,15 @@ const handleBottom = async( message ) => {
 
     if ( !( isEmpty( matched ) ) ) {
         return '*bottom karma*:\n' + await karma.bottomPhrases();
+    }
+};
+
+const handleHelpMenu = ( message ) => {
+    const bottomKarma = new RegExp( '^!karma --help$|^!karma -h$' );
+    const matched = message.match( ( bottomKarma ) );
+
+    if ( !( isEmpty( matched ) ) ) {
+        return KARMA_HELP_MENU;
     }
 };
 
