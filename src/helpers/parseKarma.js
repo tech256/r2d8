@@ -5,16 +5,17 @@ const helpers = require( './helpers' );
 const handleKarma = async( event ) => {
     const message = event.text;
     
-    const topKarma = new RegExp( '^!karma --top$|^!karma -t$' );
     const bottomKarma = new RegExp( '^!karma --bottom$|^!karma -b$' );
-  
-    // !karma @userName/"some phrase"/'some phrase'/(some phrase)
-    // !karma --top || !karma -t
-    // !karma --bottom || !karma -b
-    // const phraseKarma = new RegExp( '^!karma ' );
   
     let response = '';
   
+    // handleTop and handleBottom have to come before handleDecrement
+    // because --top and --bottom will otherwise trigger a decrement operation
+    response = await handleTop( message );
+    if ( !( isEmpty( response ) ) ) {
+        return response;
+    }
+    
     response = await handleIncrement( message );
     if ( !( isEmpty( response ) ) ) {
         return response;
@@ -98,6 +99,15 @@ const handlePointCheck = async( message ) => {
         const noBangKarmaSpaceString = phrase.substring( 7, phrase.length );
         const extractedString = extractAsNeeded( noBangKarmaSpaceString );
         return await karma.pointsForMessage( extractedString );
+    }
+};
+
+const handleTop = async( message ) => {
+    const topKarma = new RegExp( '^!karma --top$|^!karma -t$' );
+    const matched = message.match( ( topKarma ) );
+
+    if ( !( isEmpty( matched ) ) ) {
+        return await karma.topPhrases();
     }
 };
 

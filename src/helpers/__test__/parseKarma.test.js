@@ -205,4 +205,24 @@ describe( 'parseKarma', () => {
             } );
         } );
     } );
+
+    describe( 'top', () => {
+        describe( 'triggered by', () => {
+            test( '--top', async() => {
+                karma.topPhrases = jest.fn().mockResolvedValue( 'returned result' );
+                event.text = '!karma --top';
+
+                await parseKarma.handleKarma( event );
+                expect( karma.topPhrases ).toHaveBeenCalledTimes( 1 );
+            } );
+
+            test( '-t', async() => {
+                karma.topPhrases = jest.fn().mockResolvedValue( 'returned result' );
+                event.text = '!karma -t';
+
+                await parseKarma.handleKarma( event );
+                expect( karma.topPhrases ).toHaveBeenCalledTimes( 1 );
+            } );
+        } );
+    } );
 } );
