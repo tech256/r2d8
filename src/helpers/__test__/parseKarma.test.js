@@ -99,6 +99,16 @@ describe( 'parseKarma', () => {
                 expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
                 expect( karma.decrement ).toHaveBeenCalledWith( expectedString );
             } );
+
+            test( 'formatted user id', async() => {
+                const formattedUserId = '<@ABC123>';
+                event.text = `${formattedUserId}--`;
+                karma.decrement = jest.fn().mockResolvedValue( 'irrelevent' );
+
+                await parseKarma.handleKarma( event );
+                expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
+                expect( karma.decrement ).toHaveBeenCalledWith( formattedUserId );
+            } );
         } );
 
         describe( 'phrase', () => {

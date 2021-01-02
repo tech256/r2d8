@@ -72,7 +72,7 @@ const handleIncrement = async( message ) => {
 const handleDecrement = async( message ) => {
     let response = '';
   
-    const subtractKarma = RegExp( '(\\w*[-][-]|^[\'].+[\'][-][-]|^["].+["][-][-]|^[(].+[)][-][-])' );
+    const subtractKarma = RegExp( '(^<@\\w+>[-][-]$|\\w*[-][-]|^[\'].+[\'][-][-]|^["].+["][-][-]|^[(].+[)][-][-])' );
     const matched = message.match( subtractKarma );
     
     if ( !( isEmpty( matched ) ) ) {
