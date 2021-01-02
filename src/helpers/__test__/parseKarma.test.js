@@ -28,6 +28,16 @@ describe( 'parseKarma', () => {
                 expect( karma.increment ).toHaveBeenCalledTimes( 1 );
                 expect( karma.increment ).toHaveBeenCalledWith( 'foo' );
             } );
+
+            test( 'formatted user id', async() => {
+                const formattedUserId = '<@ABC123>';
+                event.text = `${formattedUserId}++`;
+                karma.increment = jest.fn().mockResolvedValue( 'irrelevent' );
+
+                await parseKarma.handleKarma( event );
+                expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                expect( karma.increment ).toHaveBeenCalledWith( formattedUserId );
+            } );
         } );
           
         describe( 'phrase', () => {
@@ -88,6 +98,16 @@ describe( 'parseKarma', () => {
                 await parseKarma.handleKarma( event );
                 expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
                 expect( karma.decrement ).toHaveBeenCalledWith( expectedString );
+            } );
+
+            test( 'formatted user id', async() => {
+                const formattedUserId = '<@ABC123>';
+                event.text = `${formattedUserId}--`;
+                karma.decrement = jest.fn().mockResolvedValue( 'irrelevent' );
+
+                await parseKarma.handleKarma( event );
+                expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
+                expect( karma.decrement ).toHaveBeenCalledWith( formattedUserId );
             } );
         } );
 
