@@ -4,7 +4,7 @@ const WELCOME_MESSAGE = `Welcome to :256:!
 
 If you haven't done so already, please upload an avatar and fill out your profile. We're a friendly group–we don't bite, promise!–but we are a community that likes to know our neighbors!
 
-There are a lot of channels here that represent different topics (e.g. #code, #jobs, etc). A lot of silliness goes down in #random. You can see our full list of channels here: https://tech256.slack.com/archives.
+There are a lot of channels here that represent different topics (e.g. #code, #jobs, etc). A lot of silliness goes down in #random. Trolls live in #code; #codehelp is a troll-free zone. You can see our full list of channels here: https://tech256.slack.com/archives.
 
 One thing you’ll want to do is configure your notification settings. Otherwise, Slack will likely send you many more pings and emails than you’re comfortable with! Consider muting channels that you’re less interested in. We’d rather you stick around and be comfortable than leave because you’re overwhelmed with notifications. https://tech256.slack.com/account/notifications.
 
