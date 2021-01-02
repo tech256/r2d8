@@ -45,7 +45,7 @@ const handleKarma = async( event ) => {
 const handleIncrement = async( message ) => {
     let response = '';
   
-    const addKarma = new RegExp( '(\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
+    const addKarma = new RegExp( '(^<@\\w+>[+][+]$|\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
     const matched = message.match ( addKarma );
 
     if ( !( isEmpty( matched ) ) ) {
