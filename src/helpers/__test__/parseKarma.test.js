@@ -153,6 +153,14 @@ describe( 'parseKarma', () => {
                 expect( karma.decrement ).toHaveBeenCalledWith( expectedString );
             } );
         } );
+
+        test( 'empty string after parsing', async() => {
+            event.text = '--';
+            karma.decrement = jest.fn().mockResolvedValue( 'irrelevent' );
+
+            await parseKarma.handleKarma( event );
+            expect( karma.decrement ).toHaveBeenCalledTimes( 0 );
+        } );
     } );
 
     describe( 'extractAsNeeded', () => {
