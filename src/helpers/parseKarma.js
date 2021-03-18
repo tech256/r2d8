@@ -62,9 +62,8 @@ const handleIncrement = async( message ) => {
         // enclosing punctuations were stripped off
         if( !( isEmpty( extracted ) ) ) {
             response = await karma.increment( extracted );
-        } else {
-            response = await karma.increment( noIncrementString );
         }
+
         return response;
     }
 };
@@ -89,9 +88,8 @@ const handleDecrement = async( message ) => {
         // enclosing punctuations were stripped off
         if( !( isEmpty( extracted ) ) ) {
             response = await karma.decrement( extracted );
-        } else {
-            response = await karma.decrement( noDecrementString );
-        }
+        } 
+
         return response;
     }
 };

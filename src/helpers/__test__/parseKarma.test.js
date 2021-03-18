@@ -39,6 +39,14 @@ describe( 'parseKarma', () => {
                 expect( karma.increment ).toHaveBeenCalledWith( formattedUserId );
             } );
         } );
+
+        test( 'empty string after parsing', async() => {
+            event.text = '++';
+            karma.increment = jest.fn().mockResolvedValue( 'irrelevent' );
+
+            await parseKarma.handleKarma( event );
+            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+        } );
           
         describe( 'phrase', () => {
             test( 'surrounded by single quotes', async()=> {
@@ -144,6 +152,14 @@ describe( 'parseKarma', () => {
                 expect( karma.decrement ).toHaveBeenCalledTimes( 1 );
                 expect( karma.decrement ).toHaveBeenCalledWith( expectedString );
             } );
+        } );
+
+        test( 'empty string after parsing', async() => {
+            event.text = '--';
+            karma.decrement = jest.fn().mockResolvedValue( 'irrelevent' );
+
+            await parseKarma.handleKarma( event );
+            expect( karma.decrement ).toHaveBeenCalledTimes( 0 );
         } );
     } );
 
