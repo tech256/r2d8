@@ -21,8 +21,6 @@ describe( 'databaseHelpers', () => {
         describe( 'logs when', () => {
             beforeEach( async() => {
                 logger.log = jest.fn().mockName( 'logger mock' );
-
-                
             } );
             it( 'db.authenticate throws error', async() => {
                 const authenticateError = new Error( 'authenticate error' );

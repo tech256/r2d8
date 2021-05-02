@@ -45,7 +45,7 @@ const handleKarma = async( event ) => {
 const handleIncrement = async( message ) => {
     let response = '';
   
-    const addKarma = new RegExp( '(\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
+    const addKarma = new RegExp( '(^<@\\w+>[+][+]$|\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
     const matched = message.match ( addKarma );
 
     if ( !( isEmpty( matched ) ) ) {
@@ -62,9 +62,8 @@ const handleIncrement = async( message ) => {
         // enclosing punctuations were stripped off
         if( !( isEmpty( extracted ) ) ) {
             response = await karma.increment( extracted );
-        } else {
-            response = await karma.increment( noIncrementString );
         }
+
         return response;
     }
 };
@@ -72,7 +71,7 @@ const handleIncrement = async( message ) => {
 const handleDecrement = async( message ) => {
     let response = '';
   
-    const subtractKarma = RegExp( '(\\w*[-][-]|^[\'].+[\'][-][-]|^["].+["][-][-]|^[(].+[)][-][-])' );
+    const subtractKarma = RegExp( '(^<@\\w+>[-][-]$|\\w*[-][-]|^[\'].+[\'][-][-]|^["].+["][-][-]|^[(].+[)][-][-])' );
     const matched = message.match( subtractKarma );
     
     if ( !( isEmpty( matched ) ) ) {
@@ -89,9 +88,8 @@ const handleDecrement = async( message ) => {
         // enclosing punctuations were stripped off
         if( !( isEmpty( extracted ) ) ) {
             response = await karma.decrement( extracted );
-        } else {
-            response = await karma.decrement( noDecrementString );
-        }
+        } 
+
         return response;
     }
 };
