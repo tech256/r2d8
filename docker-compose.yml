@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+    r2d8-bot:
+        container_name: r2d8
+        image: r2d8-bot
+        ports:
+            - '3000:3000'
+        networks:
+            - r2d8
+        volumes:
+            - ./:/usr/src/app
+    postgres:
+        container_name: postgres
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        image: postgres:alpine
+        networks:
+            - r2d8
+        ports:
+            - '5432:5432'
+        restart: always
+        volumes:
+            - './data/postgres:/var/lib/postgresql/data:delegated'
+networks:
+    r2d8:
+        driver: bridge

@@ -1,17 +1,19 @@
 const Sequelize = require( 'sequelize' );
+const parse = require( 'pg-connection-string' ).parse;
+const config = parse( process.env.DATABASE_URL );
+
 module.exports = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS,
+    config.database,
+    config.user,
+    config.password,
     {
         define: {
             createdAt: 'createdat',
             updatedAt: 'updatedat',
         },
-        host: process.env.DB_HOST,
+        host: config.host,
         dialect: 'postgres',
         native: true,
-
         pool: {
             max: 5,
             min: 0,
