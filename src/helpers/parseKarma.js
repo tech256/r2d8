@@ -44,28 +44,37 @@ const handleKarma = async( event ) => {
 
 const handleIncrement = async( message ) => {
     let response = '';
-  
-    const addKarma = new RegExp( '(^<@\\w+>[+][+]$|\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
-    const matched = message.match ( addKarma );
 
-    if ( !( isEmpty( matched ) ) ) {
-        // if we match, then we get back an array of matches. we only care about the first match
-        const phrase = matched[0];
+    const cByItself = new RegExp( '[Cc][+][+]' );
 
-        // pull ++ off end of string
-        const noIncrementString = phrase.substring( 0, phrase.length - 2 );
-        
-        // remove surrounding single or double quotes OR parentheses
-        const extracted = extractAsNeeded( noIncrementString );
-
-        // we're empty only if none of the above
-        // enclosing punctuations were stripped off
-        if( !( isEmpty( extracted ) ) ) {
-            response = await karma.increment( extracted );
-        }
-
+    if( message.match( cByItself ) && message.length == 3 ) {
+        return await karma.increment( message.slice( 0, 1 ) );
+    } else if ( message.match( cByItself ) ) {
         return response;
+    } else {
+        const addKarma = new RegExp( '(^<@\\w+>[+][+]$|\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
+        const matched = message.match ( addKarma );
+    
+        if ( !( isEmpty( matched ) ) ) {
+            // if we match, then we get back an array of matches. we only care about the first match
+            const phrase = matched[0];
+    
+            // pull ++ off end of string
+            const noIncrementString = phrase.substring( 0, phrase.length - 2 );
+            
+            // remove surrounding single or double quotes OR parentheses
+            const extracted = extractAsNeeded( noIncrementString );
+    
+            // we're empty only if none of the above
+            // enclosing punctuations were stripped off
+            if( !( isEmpty( extracted ) ) ) {
+                response = await karma.increment( extracted );
+            }
+    
+            return response;
+        }
     }
+  
 };
 
 const handleDecrement = async( message ) => {

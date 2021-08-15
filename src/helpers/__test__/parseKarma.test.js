@@ -19,15 +19,37 @@ describe( 'parseKarma', () => {
                 expect( karma.increment ).toHaveBeenCalledTimes( 1 );
                 expect( karma.increment ).toHaveBeenCalledWith( 'racecar' );
             } );
-            test( 'in middle of string ', async() => {
-                event.text = 'this is the foo++ song that never ends';
-                
-                karma.increment = jest.fn().mockResolvedValue( 'scooby-dooby-do' );
-                
-                await parseKarma.handleKarma( event );
-                expect( karma.increment ).toHaveBeenCalledTimes( 1 );
-                expect( karma.increment ).toHaveBeenCalledWith( 'foo' );
+
+            describe( 'middle of string', () => {
+                test( 'happy path', async() => {
+                    event.text = 'this is the foo++ song that never ends';
+                    
+                    karma.increment = jest.fn().mockResolvedValue( 'scooby-dooby-do' );
+                    
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    expect( karma.increment ).toHaveBeenCalledWith( 'foo' );
+                } );
+
+                test( '"C"', async() => {
+                    event.text = 'foo C++ bar';
+                    
+                    karma.increment = jest.fn().mockResolvedValue( 'C by itself' );
+                    
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                } );
+
+                test( '"c"', async() => {
+                    event.text = 'foo c++ bar';
+                    
+                    karma.increment = jest.fn().mockResolvedValue( 'c by itself' );
+                    
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                } );
             } );
+
 
             test( 'formatted user id', async() => {
                 const formattedUserId = '<@ABC123>';
@@ -47,7 +69,7 @@ describe( 'parseKarma', () => {
             await parseKarma.handleKarma( event );
             expect( karma.increment ).toHaveBeenCalledTimes( 0 );
         } );
-          
+        
         describe( 'phrase', () => {
             test( 'surrounded by single quotes', async()=> {
                 event.text = '\'round the rugged rock the ragged rascal ran\'++';
@@ -84,6 +106,25 @@ describe( 'parseKarma', () => {
                 expect( karma.increment ).toHaveBeenCalledWith( expectedString );
 
             } );
+        } );
+
+        describe( 'entire line', () => {
+            test( '"C" if on a line by itself', async() => {
+                event.text = 'C++';
+                karma.increment = jest.fn().mockResolvedValue( 'irrelevent' );
+
+                await parseKarma.handleKarma( event );
+                expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+            } );
+
+            test( '"c" if on a line by itself', async() => {
+                event.text = 'c++';
+                karma.increment = jest.fn().mockResolvedValue( 'irrelevent' );
+
+                await parseKarma.handleKarma( event );
+                expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+            } );
+
         } );
     } );
     describe( 'decrement', () => {
