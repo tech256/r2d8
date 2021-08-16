@@ -244,20 +244,158 @@ describe( 'parseKarma', () => {
         } );
 
         describe( 'entire line', () => {
-            test( '"C" if on a line by itself', async() => {
-                event.text = 'C++';
-                karma.increment = jest.fn().mockResolvedValue( 'irrelevent' );
+            describe( 'C', () => {
+                test( 'bare', async() => {
+                    event.text = 'C++';
+                        
+                    karma.increment = jest.fn().mockResolvedValue( 'C by itself' );
+                        
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                } );
+                describe( 'surrounded by', () => {
+                    test( 'parens', async() => {
+                        event.text = '(C)++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'C parens' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
 
-                await parseKarma.handleKarma( event );
-                expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    test( 'single quotes', async() => {
+                        event.text = '\'C\'++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'C single quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
+
+                    test( 'double quotes', async() => {
+                        event.text = '"C"++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'C double quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
+                } );
+
             } );
+            describe( 'c', () => {
+                test( 'bare', async() => {
+                    event.text = 'c++';
+                        
+                    karma.increment = jest.fn().mockResolvedValue( 'c by itself' );
+                        
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                } );
+                describe( 'surrounded by', () => {
+                    test( 'parens', async() => {
+                        event.text = '(c)++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'c parens' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
 
-            test( '"c" if on a line by itself', async() => {
-                event.text = 'c++';
-                karma.increment = jest.fn().mockResolvedValue( 'irrelevent' );
+                    test( 'single quotes', async() => {
+                        event.text = '\'c\'++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'c single quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
 
-                await parseKarma.handleKarma( event );
-                expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    test( 'double quotes', async() => {
+                        event.text = '"c"++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'c double quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
+                } );
+            } );
+            describe( 'C++', () => {
+                test( 'bare', async() => {
+                    event.text = 'C++++';
+                        
+                    karma.increment = jest.fn().mockResolvedValue( 'C++ by itself' );
+                        
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                } );
+                describe( 'surrounded by', () => {
+                    test( 'parens', async() => {
+                        event.text = '(C++)++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'C++ parens' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    } );
+
+                    test( 'single quotes', async() => {
+                        event.text = '\'C++\'++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( ' C++ single quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    } );
+
+                    test( 'double quotes', async() => {
+                        event.text = '"C++"++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'C++ double quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    } );
+                } );
+            } );
+            describe( 'c++', () => {
+                test( 'bare', async() => {
+                    event.text = 'c++++';
+                        
+                    karma.increment = jest.fn().mockResolvedValue( 'c++ by itself' );
+                        
+                    await parseKarma.handleKarma( event );
+                    expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                } );
+                describe( 'surrounded by', () => {
+                    test( 'parens', async() => {
+                        event.text = '(c++)++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'c++ parens' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    } );
+
+                    test( 'single quotes', async() => {
+                        event.text = '\'c++\'++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( ' c++ single quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    } );
+
+                    test( 'double quotes', async() => {
+                        event.text = '"c++"++';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'c++ double quote' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 1 );
+                    } );
+                } );
             } );
 
         } );
