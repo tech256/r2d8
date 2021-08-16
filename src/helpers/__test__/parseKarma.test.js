@@ -41,146 +41,94 @@ describe( 'parseKarma', () => {
                         expect( karma.increment ).toHaveBeenCalledTimes( 0 );
                     } );
                     describe( 'surrounded by', () => {
-                        test( 'parens', async() => {
-                            event.text = 'foo (C)++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'C parens' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'single quotes', async() => {
-                            event.text = 'foo \'C\'++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'C single quote' );
+                        test.each`
+                        input         | expected    |  testName
+                        ${'(C)'}      | ${0}        | ${'parens'}
+                        ${'\'C\''}    | ${0}        | ${'single quote'}
+                        ${'"C"'}      | ${0}        | ${'double quote'}
+                        `( '$testName', async( {input, expected, testName} ) => {
+                            event.text = `foo ${input}++ bar`;
+
+                            karma.increment = jest.fn().mockResolvedValue( `${testName} parens` );
                                 
                             await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'double quotes', async() => {
-                            event.text = 'foo "C"++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'C double quote' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                            expect( karma.increment ).toHaveBeenCalledTimes( expected );
                         } );
                     } );
-
+                    
                 } );
                 describe( 'c', () => {
                     test( 'bare', async() => {
                         event.text = 'foo c++ bar';
-                            
+                        
                         karma.increment = jest.fn().mockResolvedValue( 'c by itself' );
-                            
+                        
                         await parseKarma.handleKarma( event );
                         expect( karma.increment ).toHaveBeenCalledTimes( 0 );
                     } );
                     describe( 'surrounded by', () => {
-                        test( 'parens', async() => {
-                            event.text = 'foo (c)++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'c parens' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'single quotes', async() => {
-                            event.text = 'foo \'c\'++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'c single quote' );
+                        test.each`
+                        input         | expected    |  testName
+                        ${'(c)'}      | ${0}        | ${'parens'}
+                        ${'\'c\''}    | ${0}        | ${'single quote'}
+                        ${'"c"'}      | ${0}        | ${'double quote'}
+                        `( '$testName', async( {input, expected, testName} ) => {
+                            event.text = `foo ${input}++ bar`;
+        
+                            karma.increment = jest.fn().mockResolvedValue( `${testName} parens` );
                                 
                             await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'double quotes', async() => {
-                            event.text = 'foo "c"++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'c double quote' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                            expect( karma.increment ).toHaveBeenCalledTimes( expected );
                         } );
                     } );
                 } );
                 describe( 'C++', () => {
                     test( 'bare', async() => {
                         event.text = 'foo C++++ bar';
-                            
+                        
                         karma.increment = jest.fn().mockResolvedValue( 'C++ by itself' );
-                            
+                        
                         await parseKarma.handleKarma( event );
                         expect( karma.increment ).toHaveBeenCalledTimes( 0 );
                     } );
                     describe( 'surrounded by', () => {
-                        test( 'parens', async() => {
-                            event.text = 'foo (C++)++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'C++ parens' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'single quotes', async() => {
-                            event.text = 'foo \'C++\'++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( ' C++ single quote' );
+                        test.each`
+                        input         | expected    |  testName
+                        ${'(C++)'}      | ${0}        | ${'parens'}
+                        ${'\'C++\''}    | ${0}        | ${'single quote'}
+                        ${'"C++"'}      | ${0}        | ${'double quote'}
+                        `( '$testName', async( {input, expected, testName} ) => {
+                            event.text = `foo ${input}++ bar`;
+        
+                            karma.increment = jest.fn().mockResolvedValue( `${testName} parens` );
                                 
                             await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'double quotes', async() => {
-                            event.text = 'foo "C++"++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'C++ double quote' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                            expect( karma.increment ).toHaveBeenCalledTimes( expected );
                         } );
                     } );
                 } );
                 describe( 'c++', () => {
                     test( 'bare', async() => {
                         event.text = 'foo c++++ bar';
-                            
+                        
                         karma.increment = jest.fn().mockResolvedValue( 'c++ by itself' );
-                            
+                        
                         await parseKarma.handleKarma( event );
                         expect( karma.increment ).toHaveBeenCalledTimes( 0 );
                     } );
                     describe( 'surrounded by', () => {
-                        test( 'parens', async() => {
-                            event.text = 'foo (c++)++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'c++ parens' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'single quotes', async() => {
-                            event.text = 'foo \'c++\'++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( ' c++ single quote' );
+                        test.each`
+                        input         | expected    |  testName
+                        ${'(c++)'}      | ${0}        | ${'parens'}
+                        ${'\'c++\''}    | ${0}        | ${'single quote'}
+                        ${'"c++"'}      | ${0}        | ${'double quote'}
+                        `( '$testName', async( {input, expected, testName} ) => {
+                            event.text = `foo ${input}++ bar`;
+        
+                            karma.increment = jest.fn().mockResolvedValue( `${testName} parens` );
                                 
                             await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
-                        } );
-    
-                        test( 'double quotes', async() => {
-                            event.text = 'foo "c++"++ bar';
-                                
-                            karma.increment = jest.fn().mockResolvedValue( 'c++ double quote' );
-                                
-                            await parseKarma.handleKarma( event );
-                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                            expect( karma.increment ).toHaveBeenCalledTimes( expected );
                         } );
                     } );
                 } );
