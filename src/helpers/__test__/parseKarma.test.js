@@ -108,7 +108,82 @@ describe( 'parseKarma', () => {
                         } );
                     } );
                 } );
-                
+                describe( 'C++', () => {
+                    test( 'bare', async() => {
+                        event.text = 'foo C++++ bar';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'C++ by itself' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
+                    describe( 'surrounded by', () => {
+                        test( 'parens', async() => {
+                            event.text = 'foo (C++)++ bar';
+                                
+                            karma.increment = jest.fn().mockResolvedValue( 'C++ parens' );
+                                
+                            await parseKarma.handleKarma( event );
+                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                        } );
+    
+                        test( 'single quotes', async() => {
+                            event.text = 'foo \'C++\'++ bar';
+                                
+                            karma.increment = jest.fn().mockResolvedValue( ' C++ single quote' );
+                                
+                            await parseKarma.handleKarma( event );
+                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                        } );
+    
+                        test( 'double quotes', async() => {
+                            event.text = 'foo "C++"++ bar';
+                                
+                            karma.increment = jest.fn().mockResolvedValue( 'C++ double quote' );
+                                
+                            await parseKarma.handleKarma( event );
+                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                        } );
+                    } );
+                } );
+                describe( 'c++', () => {
+                    test( 'bare', async() => {
+                        event.text = 'foo c++++ bar';
+                            
+                        karma.increment = jest.fn().mockResolvedValue( 'c++ by itself' );
+                            
+                        await parseKarma.handleKarma( event );
+                        expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                    } );
+                    describe( 'surrounded by', () => {
+                        test( 'parens', async() => {
+                            event.text = 'foo (c++)++ bar';
+                                
+                            karma.increment = jest.fn().mockResolvedValue( 'c++ parens' );
+                                
+                            await parseKarma.handleKarma( event );
+                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                        } );
+    
+                        test( 'single quotes', async() => {
+                            event.text = 'foo \'c++\'++ bar';
+                                
+                            karma.increment = jest.fn().mockResolvedValue( ' c++ single quote' );
+                                
+                            await parseKarma.handleKarma( event );
+                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                        } );
+    
+                        test( 'double quotes', async() => {
+                            event.text = 'foo "c++"++ bar';
+                                
+                            karma.increment = jest.fn().mockResolvedValue( 'c++ double quote' );
+                                
+                            await parseKarma.handleKarma( event );
+                            expect( karma.increment ).toHaveBeenCalledTimes( 0 );
+                        } );
+                    } );
+                } );
             } );
 
 
