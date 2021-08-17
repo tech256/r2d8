@@ -44,14 +44,42 @@ const handleKarma = async( event ) => {
 
 const handleIncrement = async( message ) => {
     let response = '';
-
+    
     const cByItself = new RegExp( '[Cc][+][+]' );
+    const cSurrounded = new RegExp( '[(|"|\'][Cc][)|"|\'][+][+]' );
 
+    // we upvote C++ if it's surrounded by '', "", or () because the ++ is our trigger for upvoting
+    const cPlusPlus = new RegExp( '[(|"|\'][Cc][+][+][)|"|\'][+][+]' );
+
+    // user example: C++
+    // user example: c++
     if( message.match( cByItself ) && message.length == 3 ) {
         return await karma.increment( message.slice( 0, 1 ) );
-    } else if ( message.match( cByItself ) ) {
+    }
+    // user example: (C++)++
+    // user example: (c++)++
+    // user example: 'C++'++
+    // user example: 'c++'++
+    // user example: "C++"++
+    // user example: "c++"++
+    else if ( message.match( cPlusPlus ) && message.length == 7 ) {
+        return await karma.increment( message.slice( 1, 4 ) );
+    }
+    // user example: (C)++
+    // user example: (c)++
+    // user example: 'C'++
+    // user example: 'c'++
+    // user example: "C"++
+    // user example: "c"++
+    else if( message.match( cSurrounded ) ) {
         return response;
-    } else {
+    }
+
+
+    // if C/C++ (case insensitive) is in the middle of a string do nothing
+    else if ( message.match( cPlusPlus ) || message.match( cByItself ) ) {
+        return response;
+    }  else {
         const addKarma = new RegExp( '(^<@\\w+>[+][+]$|\\w*[+][+]|^[\'].+[\'][+][+]|^["].+["][+][+]|^[(].+[)][+][+])' );
         const matched = message.match ( addKarma );
     
