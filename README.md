@@ -1,5 +1,6 @@
 # R2-D8
 
+[![Build Status](https://github.com/tech256/r2d8/actions/workflows/node.js.yml/badge.svg)](https://github.com/tech256/r2d8/actions/workflows/node.js.yml)
 [![Build Status](https://circleci.com/gh/tech256/r2d8.svg?style=svg)](https://app.circleci.com/pipelines/github/tech256/r2d8)
 [![Build Status](https://travis-ci.org/tech256/r2d8.svg?branch=master)](https://travis-ci.org/tech256/r2d8)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
