@@ -1,4 +1,17 @@
 const Sequelize = require( 'sequelize' );
+
+const db = new Sequelize( env.DATABASE_URL );
+db.dialect = 'postgres';
+db.native = true;
+db.pool = {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+};
+
+module.exports = db;
+/*
 module.exports = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USER,
@@ -20,3 +33,4 @@ module.exports = new Sequelize(
         },
     }
 );
+*/
