@@ -1,4 +1,4 @@
-# R2-D8
+# R2-D8 (Archived)
 
 [![Build Status](https://github.com/tech256/r2d8/actions/workflows/node.js.yml/badge.svg)](https://github.com/tech256/r2d8/actions/workflows/node.js.yml)
 [![Build Status](https://circleci.com/gh/tech256/r2d8.svg?style=svg)](https://app.circleci.com/pipelines/github/tech256/r2d8)
@@ -8,6 +8,9 @@
 A bot for the people of [tech256][tech256]. The name is a pretty awful play
 on [R2-D2][r2d2] where in we replaced the last 2 with an 8 because 256 is
 2^8 `¯\_(ツ)_/¯`. The bot is based on [slackbots][slackbots].
+
+# Archived
+As of November 28th, 2022, Heroku has removed all free plans from their site. Due to this change it was decided that we would no longer use the r2d8 Slack bot. I, Tyler Hughes, have archived this repository. By doing this, the repository will remain here for future use if we decide to every bring it back.
 
 # Contributors
 
